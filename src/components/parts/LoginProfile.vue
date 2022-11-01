@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
-    <img :src="require(`../../assets/${ this.$store.state.profileImg }`)" />
-    <div class="name">{{ this.$store.state.profileName }}</div>
+    <img :src="require(`../../assets/${ this.$store.state.user_img }`)" />
+    <div class="name">{{ this.$store.state.user_name }}</div>
   </div>
 </template>
 

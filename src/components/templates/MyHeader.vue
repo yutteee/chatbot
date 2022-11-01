@@ -4,7 +4,7 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import LoginProfile from '../parts/LoginProfile.vue';
 </script>
 

@@ -4,11 +4,17 @@
         <div class="forms">
             <div class="form">
                 <div>name</div>
-                <LoginForm></LoginForm>
+                <LoginForm
+                    :model-value="name" 
+                    @update:model-value="name = $event" 
+                ></LoginForm>
             </div>
             <div class="form">
                 <div>password</div>
-                <LoginForm></LoginForm>
+                <LoginForm
+                    :model-value="password" 
+                    @update:model-value="password = $event" 
+                ></LoginForm>
             </div>
         </div>
         <LoginButton></LoginButton>
@@ -23,6 +29,12 @@ export default {
     components: {
         LoginButton,
         LoginForm
+    },
+    data () {
+        return {
+            name: "",
+            password: ""
+        }
     }
 }
 </script>

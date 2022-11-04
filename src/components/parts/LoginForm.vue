@@ -1,10 +1,14 @@
 <template>
-    <input type="text">
+    <input
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+    >
 </template>
 
 <script>
 export default {
-
+    props:['modelValue'],
+    emits:['update:modelValue']
 }
 
 </script>
@@ -14,5 +18,4 @@ input {
     width: 100%;
     height: 16px;
 }
-
 </style>

@@ -15,7 +15,15 @@ export default {
 
 <style scoped>
 input {
+    outline: none;
     width: 100%;
-    height: 16px;
+    height: 24px;
+    border: 1px solid #000;
+    border-radius: 3px;
+}
+
+input:focus {
+    border: 1px solid #000;
+    background-color: #c9e9f1;
 }
 </style>

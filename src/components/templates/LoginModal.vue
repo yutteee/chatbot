@@ -3,14 +3,14 @@
         <div class="title">Login</div>
         <div class="forms">
             <div class="form">
-                <div>name</div>
+                <div class="label">name</div>
                 <LoginForm
                     :model-value="name" 
                     @update:model-value="name = $event" 
                 ></LoginForm>
             </div>
             <div class="form">
-                <div>password</div>
+                <div class="label">password</div>
                 <LoginForm
                     :model-value="password" 
                     @update:model-value="password = $event" 
@@ -42,13 +42,20 @@ export default {
 <style scoped>
 .container {
     text-align: center;
+    margin-top: 64px;
 }
 
 .forms {
-    width: 30%;
+    max-width: 400px;
+    width: 80%;
     margin: 0 auto;
     margin-bottom: 48px;
     text-align: left;
+}
+
+.label {
+    font-size: 20px;
+    margin-bottom: 8px;
 }
 
 .form {
@@ -57,6 +64,7 @@ export default {
 .title {
     color: #0075FF;
     font-size: 48px;
+    font-weight: 700;
 }
 
 </style>

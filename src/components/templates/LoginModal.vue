@@ -2,20 +2,14 @@
     <div class="container">
         <div class="title">Login</div>
         <div class="forms">
-            <div class="form">
-                <div class="label">name</div>
-                <LoginForm
-                    :model-value="name" 
-                    @update:model-value="name = $event" 
-                ></LoginForm>
-            </div>
-            <div class="form">
-                <div class="label">password</div>
-                <LoginForm
-                    :model-value="password" 
-                    @update:model-value="password = $event" 
-                ></LoginForm>
-            </div>
+            <NameForm
+                :model-value="name" 
+                @update:model-value="name = $event" 
+            ></NameForm>
+            <PasswordForm
+                :model-value="password" 
+                @update:model-value="password = $event" 
+            ></PasswordForm>
         </div>
         <LoginButton></LoginButton>
     </div>
@@ -23,12 +17,14 @@
 
 <script>
 import LoginButton from '../parts/LoginButton.vue';
-import LoginForm from '../parts/LoginForm.vue';
+import NameForm from '../parts/NameForm.vue';
+import PasswordForm from '../parts/PasswordForm.vue';
 
 export default {
     components: {
         LoginButton,
-        LoginForm
+        NameForm,
+        PasswordForm
     },
     data () {
         return {
@@ -53,14 +49,6 @@ export default {
     text-align: left;
 }
 
-.label {
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
-.form {
-    margin-top: 32px;
-}
 .title {
     color: #0075FF;
     font-size: 48px;

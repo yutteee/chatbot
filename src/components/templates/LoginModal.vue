@@ -1,4 +1,5 @@
 <template>
+    <div class="title">Login</div>
     <LoginButton></LoginButton>
 </template>
 
@@ -11,3 +12,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.title {
+    color: #0075FF;
+    font-size: 48px;
+    
+}
+
+</style>

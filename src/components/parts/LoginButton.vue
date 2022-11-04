@@ -1,8 +1,15 @@
 <template>
-    <button>
+    <button v-on:click="$emit('submit')">
         <div>Login</div>
     </button>
 </template>
+
+<script>
+export default {
+  emits:['submit']
+}
+
+</script>
 
 <style scoped>
 button {

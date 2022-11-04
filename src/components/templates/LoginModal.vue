@@ -11,7 +11,7 @@
                 @update:model-value="password = $event" 
             ></PasswordForm>
         </div>
-        <LoginButton></LoginButton>
+        <LoginButton v-on:click="submit"></LoginButton>
     </div>
 </template>
 
@@ -30,6 +30,11 @@ export default {
         return {
             name: "",
             password: ""
+        }
+    },
+    methods: {
+        submit: function() {
+            console.log(this.name, this.password)
         }
     }
 }

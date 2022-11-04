@@ -10,7 +10,9 @@
 
 <script>
 export default {
-    props:['modelValue'],
+    props:{
+        modelValue: String
+    },
     emits:['update:modelValue']
 }
 

@@ -1,5 +1,9 @@
 <template>
-    <font-awesome-icon :icon="iconName" :style="iconColor" class="icon"/>
+    <font-awesome-icon
+        :icon="iconName"
+        :style="iconColor"
+        v-on:click="$emit('handleClick')"
+        class="icon"/>
 </template>
 
 <script>
@@ -8,7 +12,8 @@ export default {
         iconName: String,
         color: String
     },
-    computed: {
+    emits:['handleClick'],
+    computed:{
         iconColor() {
             return {
                 'color' : this.color

@@ -5,7 +5,7 @@
         <div class="messages">
             <IconButton :iconName="linkIcon"></IconButton>
             <MessageForm></MessageForm>
-            <IconButton :iconName="sendIcon" color="#0075ff"></IconButton>
+            <IconButton :iconName="sendIcon" color="#0075ff" v-on:click="sendMessage"></IconButton>
         </div>
     </div>
 </template>
@@ -26,7 +26,12 @@ export default {
             linkIcon: "fa-solid fa-link",
             sendIcon: "fa-regular fa-paper-plane"
         }
-    }
+    },
+    methods: {
+        sendMessage : function() {
+            console.log('aaa')
+        }
+    },
 }
 
 </script>

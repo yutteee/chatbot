@@ -5,7 +5,7 @@
 <style scoped>
 input {
     height: 32px;
-    width: 320px;
+    width: 300px;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 30px;

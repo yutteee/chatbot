@@ -1,9 +1,12 @@
 <template>
     <div class="flame">
         <ChatHeader></ChatHeader>
-        <font-awesome-icon icon="fa-solid fa-link" class="icon"/>
-        <MessageForm></MessageForm>
-        <font-awesome-icon icon="fa-regular fa-paper-plane" class="icon plane"/>
+        <div class="chats"></div>
+        <div class="messages">
+            <font-awesome-icon icon="fa-solid fa-link" class="icon"/>
+            <MessageForm></MessageForm>
+            <font-awesome-icon icon="fa-regular fa-paper-plane" class="icon plane"/>
+        </div>
     </div>
 </template>
 
@@ -25,6 +28,30 @@ export default {
     width: 400px;
     height: 500px;
     border: 1px solid;
+}
+
+.chats {
+    height: 396px;
+}
+
+.messages {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 64px;
+    position: relative;
+}
+
+.messages::before {
+    content: "";
+    width: 360px;
+    height: 2px;
+    background: #ebebeb;
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .icon {

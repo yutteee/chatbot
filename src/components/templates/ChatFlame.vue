@@ -1,7 +1,9 @@
 <template>
     <div class="flame">
         <ChatHeader></ChatHeader>
+        <font-awesome-icon icon="fa-solid fa-link" class="icon"/>
         <MessageForm></MessageForm>
+        <font-awesome-icon icon="fa-regular fa-paper-plane" class="icon plane"/>
     </div>
 </template>
 
@@ -25,4 +27,12 @@ export default {
     border: 1px solid;
 }
 
+.icon {
+    width: 25px;
+    height: 25px;
+}
+
+.plane {
+    color: #0075FF;
+}
 </style>

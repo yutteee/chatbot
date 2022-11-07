@@ -4,8 +4,10 @@ import router from './router'
 import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
+import { faLink } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faCommentDots)
+library.add(faCommentDots, faPaperPlane, faLink)
 
 createApp(App).use(store).use(router).component("font-awesome-icon", FontAwesomeIcon).mount('#app')

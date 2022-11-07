@@ -3,21 +3,29 @@
         <ChatHeader></ChatHeader>
         <div class="chats"></div>
         <div class="messages">
-            <font-awesome-icon icon="fa-solid fa-link" class="icon"/>
+            <IconButton :iconName="linkIcon"></IconButton>
             <MessageForm></MessageForm>
-            <font-awesome-icon icon="fa-regular fa-paper-plane" class="icon plane"/>
+            <IconButton :iconName="sendIcon" color="#0075ff"></IconButton>
         </div>
     </div>
 </template>
 
 <script>
 import ChatHeader from '../parts/users/ChatHeader.vue';
-import MessageForm from '../parts/users/MessageForm.vue'
+import MessageForm from '../parts/users/MessageForm.vue';
+import IconButton from '../parts/IconButton.vue';
 
 export default {
     components: {
         ChatHeader,
-        MessageForm
+        MessageForm,
+        IconButton
+    },
+    data () {
+        return {
+            linkIcon: "fa-solid fa-link",
+            sendIcon: "fa-regular fa-paper-plane"
+        }
     }
 }
 

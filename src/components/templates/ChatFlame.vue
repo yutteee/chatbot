@@ -1,15 +1,18 @@
 <template>
     <div class="flame">
         <ChatHeader></ChatHeader>
+        <MessageForm></MessageForm>
     </div>
 </template>
 
 <script>
 import ChatHeader from '../parts/users/ChatHeader.vue';
+import MessageForm from '../parts/users/MessageForm.vue'
 
 export default {
     components: {
-        ChatHeader
+        ChatHeader,
+        MessageForm
     }
 }
 

@@ -2,7 +2,7 @@
     <div class="flame">
         <ChatHeader></ChatHeader>
         <div class="chats">
-            <div>{{this.fileData.value}}</div>
+            <MyMessage></MyMessage>
         </div>
         <div class="messages">
             <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -17,13 +17,15 @@ import ChatHeader from '../parts/users/ChatHeader.vue';
 import MessageForm from '../parts/users/MessageForm.vue';
 import FileUpload from '../parts/users/FileUpload.vue'
 import MessageSendButton from '../parts/users/MessageSendButton.vue'
+import MyMessage from '../parts/users/MyMessage.vue';
 
 export default {
     components: {
         ChatHeader,
         MessageForm,
         FileUpload,
-        MessageSendButton
+        MessageSendButton,
+        MyMessage
     },
     data () {
         return {

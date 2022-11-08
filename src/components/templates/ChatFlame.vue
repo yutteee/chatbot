@@ -49,6 +49,7 @@ export default {
     },
     methods: {
         sendMessage : function() {
+            if (this.inputMessage == '') return console.log("error");
             const endIndex = this.sendedMessages.length;
             const sendedMessage = {
                 id: endIndex,
@@ -75,7 +76,9 @@ export default {
 }
 
 .chats {
-    height: 396px;
+    height: 390px;
+    overflow: scroll;
+    margin-top: 6px;
 }
 
 .messages {
@@ -84,6 +87,7 @@ export default {
     align-items: center;
     height: 64px;
     position: absolute;
+    background-color: #fff;
     bottom: 0px;
     width: 400px;
 }

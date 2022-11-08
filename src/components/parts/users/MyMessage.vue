@@ -21,12 +21,11 @@ export default {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     width: fit-content;
+    max-width: 280px;
     padding: 2px 10px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     position: relative;
-    margin-right: 40px;
-    margin-left: auto;
-    margin-top: 32px;
+    margin:32px 40px 5px auto;
 }
 
 img {

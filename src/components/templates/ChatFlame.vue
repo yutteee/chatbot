@@ -5,7 +5,7 @@
             <div>{{this.fileData.value}}</div>
         </div>
         <div class="messages">
-            <FileUpload ></FileUpload> 
+            <FileUpload v-on:change="selectFile"></FileUpload> 
             <MessageForm></MessageForm>
             <MessageSendButton v-on:click="sendMessage"></MessageSendButton>
         </div>
@@ -34,6 +34,10 @@ export default {
         sendMessage : function() {
             console.log('aaa')
         },
+        selectFile : function(event) {
+            this.fileData = event.target.files[0]
+            console.log(this.fileData)
+        }
     },
 }
 

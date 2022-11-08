@@ -11,13 +11,6 @@
 <script>
 export default {
     emits:['handleClick'],
-    methods: {
-        selectFile : function(event) {
-            this.fileData = event.target.files[0]
-            console.log(event.target.files[0])
-            console.log('aaa')
-        }
-    }
 }
 </script>
 

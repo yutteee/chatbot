@@ -43,13 +43,18 @@ export default {
                 {
                     id: 1,
                     content: "How are you?"
-                }
+                },
             ]
         }
     },
     methods: {
         sendMessage : function() {
-            // this.sendedMessage = this.inputMessage;
+            const endIndex = this.sendedMessages.length;
+            const sendedMessage = {
+                id: endIndex,
+                content: this.inputMessage
+            };
+            this.sendedMessages[endIndex] = sendedMessage;
             this.inputMessage = '';
         },
         selectFile : function(event) {

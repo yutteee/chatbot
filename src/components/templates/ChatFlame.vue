@@ -51,6 +51,7 @@ export default {
     width: 400px;
     height: 500px;
     border: 1px solid;
+    position: relative;
 }
 
 .chats {
@@ -62,7 +63,9 @@ export default {
     justify-content: space-evenly;
     align-items: center;
     height: 64px;
-    position: relative;
+    position: absolute;
+    bottom: 0px;
+    width: 400px;
 }
 
 .messages::before {
@@ -76,4 +79,5 @@ export default {
     left: 50%;
     transform: translateX(-50%);
 }
+
 </style>

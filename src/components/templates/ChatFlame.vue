@@ -1,9 +1,11 @@
 <template>
     <div class="flame">
         <ChatHeader></ChatHeader>
-        <div class="chats"></div>
+        <div class="chats">
+            <div>{{this.fileData.value}}</div>
+        </div>
         <div class="messages">
-            <FileUpload></FileUpload> 
+            <FileUpload ></FileUpload> 
             <MessageForm></MessageForm>
             <MessageSendButton v-on:click="sendMessage"></MessageSendButton>
         </div>
@@ -25,13 +27,13 @@ export default {
     },
     data () {
         return {
-
+            fileData: ''
         }
     },
     methods: {
         sendMessage : function() {
             console.log('aaa')
-        }
+        },
     },
 }
 

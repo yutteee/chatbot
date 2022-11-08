@@ -2,7 +2,11 @@
     <div class="flame">
         <ChatHeader></ChatHeader>
         <div class="chats">
-            <MyMessage :message="sendedMessage"></MyMessage>
+            <MyMessage 
+                v-for="sendedMessage in sendedMessages"
+                :key="sendedMessage.id"
+                :message="sendedMessage.content"
+            ></MyMessage>
         </div>
         <div class="messages">
             <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -31,12 +35,21 @@ export default {
         return {
             fileData: '',
             inputMessage: '',
-            sendedMessage: ''
+            sendedMessages: [
+                {
+                    id: 0,
+                    content: "Hi!"
+                },
+                {
+                    id: 1,
+                    content: "How are you?"
+                }
+            ]
         }
     },
     methods: {
         sendMessage : function() {
-            this.sendedMessage = this.inputMessage;
+            // this.sendedMessage = this.inputMessage;
             this.inputMessage = '';
         },
         selectFile : function(event) {

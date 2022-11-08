@@ -9,11 +9,11 @@
 .message {
     border: 1.5px solid #288BFF;
     color: #288BFF;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
     width: fit-content;
-    padding: 2px 5px;
+    padding: 2px 10px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     position: relative;
     margin-right: 40px;

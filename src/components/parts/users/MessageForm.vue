@@ -1,6 +1,20 @@
 <template>
-    <input type="text" placeholder="Write a message.">
+    <input 
+        type="text"
+        placeholder="Write a message."
+        :value="message"
+        @input="$emit('update:message', $event.target.value)"
+    >
 </template>
+
+<script>
+export default {
+    props: {
+        message: String
+    }
+}
+</script>
+
 
 <style scoped>
 input {

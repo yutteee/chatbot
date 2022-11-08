@@ -6,7 +6,7 @@
         </div>
         <div class="messages">
             <FileUpload v-on:change="selectFile"></FileUpload> 
-            <MessageForm></MessageForm>
+            <MessageForm :message="myMessage" @update:message="myMessage = $event"></MessageForm>
             <MessageSendButton v-on:click="sendMessage"></MessageSendButton>
         </div>
     </div>
@@ -27,12 +27,13 @@ export default {
     },
     data () {
         return {
-            fileData: ''
+            fileData: '',
+            myMessage: ''
         }
     },
     methods: {
         sendMessage : function() {
-            console.log('aaa')
+            console.log(this.myMessage)
         },
         selectFile : function(event) {
             this.fileData = event.target.files[0]

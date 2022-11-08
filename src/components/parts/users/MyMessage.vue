@@ -1,9 +1,17 @@
 <template>
     <div class="message">
-        How are you?
+        {{ message }}
         <img src="../../../assets/logo.png">
     </div>
 </template>
+
+<script>
+export default {
+    props: {
+        message: String
+    }
+}
+</script>
 
 <style scoped>
 .message {

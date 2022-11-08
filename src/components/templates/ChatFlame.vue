@@ -2,11 +2,11 @@
     <div class="flame">
         <ChatHeader></ChatHeader>
         <div class="chats">
-            <MyMessage></MyMessage>
+            <MyMessage :message="sendedMessage"></MyMessage>
         </div>
         <div class="messages">
             <FileUpload v-on:change="selectFile"></FileUpload> 
-            <MessageForm :message="myMessage" @update:message="myMessage = $event"></MessageForm>
+            <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
             <MessageSendButton v-on:click="sendMessage"></MessageSendButton>
         </div>
     </div>
@@ -30,16 +30,18 @@ export default {
     data () {
         return {
             fileData: '',
-            myMessage: ''
+            inputMessage: '',
+            sendedMessage: ''
         }
     },
     methods: {
         sendMessage : function() {
-            console.log(this.myMessage)
+            this.sendedMessage = this.inputMessage;
+            this.inputMessage = '';
         },
         selectFile : function(event) {
-            this.fileData = event.target.files[0]
-            console.log(this.fileData)
+            this.fileData = event.target.files[0];
+            console.log(this.fileData);
         }
     },
 }

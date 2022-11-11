@@ -1,6 +1,6 @@
 <template>
-    <ChatFlame></ChatFlame>
-    <FloatingActionButton></FloatingActionButton>
+    <ChatFlame v-show="isModalOpen" class="chatModal"></ChatFlame>
+    <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 
 <script>
@@ -11,6 +11,22 @@ export default {
     components: {
         FloatingActionButton,
         ChatFlame
+    },
+    data () {
+        return {
+            isModalOpen: false
+        }
+    },
+    methods: {
+        buttonClicked: function () {
+            this.isModalOpen = true;
+        }
     }
 }
 </script>
+
+<style scoped>
+.chatModal {
+    position: absolute;
+}
+</style>

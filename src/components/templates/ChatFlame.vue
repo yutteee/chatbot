@@ -38,6 +38,7 @@ export default {
         return {
             fileData: '',
             inputMessage: '',
+            // 本当はデータベースから持ってくる。
             sendedMessages: [
                 {
                     id: 0,
@@ -87,6 +88,9 @@ export default {
     height: 500px;
     border: 1px solid;
     position: relative;
+    position: fixed;
+    bottom: 64px;
+    right: 64px;
 }
 
 .chats {

@@ -86,7 +86,8 @@ export default {
 .flame {
     width: 400px;
     height: 500px;
-    border: 1px solid;
+    border-radius: 10px;
+    box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
     position: relative;
     position: fixed;
     bottom: 64px;
@@ -107,6 +108,7 @@ export default {
     background-color: #fff;
     bottom: 0px;
     width: 400px;
+    border-radius: 0 0 10px 10px;
 }
 
 .messages::before {

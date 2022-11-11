@@ -1,5 +1,5 @@
 <template>
-    <ChatFlame v-show="isModalOpen" class="chatModal"></ChatFlame>
+    <ChatFlame v-show="isModalOpen" class="chatModal" @click="closeChatModal"></ChatFlame>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 
@@ -20,6 +20,9 @@ export default {
     methods: {
         buttonClicked: function () {
             this.isModalOpen = true;
+        },
+        closeChatModal: function () {
+            this.isModalOpen = false;
         }
     }
 }

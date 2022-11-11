@@ -1,6 +1,6 @@
 <template>
     <div class="flame">
-        <ChatHeader></ChatHeader>
+        <ChatHeader @click="closeChatModal"></ChatHeader>
         <div class="chats">
             <YourMessage></YourMessage>
             <MyMessage 
@@ -68,6 +68,9 @@ export default {
         selectFile : function(event) {
             this.fileData = event.target.files[0];
             console.log(this.fileData);
+        },
+        closeChatModal: function () {
+            this.$emit('click');
         }
     },
     updated() {

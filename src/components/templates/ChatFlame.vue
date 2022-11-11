@@ -49,7 +49,8 @@ export default {
     },
     methods: {
         sendMessage : function() {
-            if (this.inputMessage == '') return console.log("error");
+            const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+            if (spaceDeletedMessage == '') return console.log("error");
             const endIndex = this.sendedMessages.length;
             const sendedMessage = {
                 id: endIndex,
@@ -78,7 +79,6 @@ export default {
 .chats {
     height: 390px;
     overflow: scroll;
-    margin-top: 6px;
 }
 
 .messages {

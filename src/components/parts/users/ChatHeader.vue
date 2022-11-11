@@ -9,7 +9,7 @@
 export default {
     methods : {
         closeChatModal : function (){
-            this.$emit('click')
+            this.$emit('childClick')
         }
     }
 }

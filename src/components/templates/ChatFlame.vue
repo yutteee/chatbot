@@ -1,6 +1,6 @@
 <template>
     <div class="flame">
-        <ChatHeader @click="closeChatModal"></ChatHeader>
+        <ChatHeader @childClick="closeChatModal"></ChatHeader>
         <div class="chats">
             <YourMessage></YourMessage>
             <MyMessage 
@@ -70,7 +70,7 @@ export default {
             console.log(this.fileData);
         },
         closeChatModal: function () {
-            this.$emit('click');
+            this.$emit('parentClick');
         }
     },
     updated() {

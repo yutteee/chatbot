@@ -1,5 +1,5 @@
 <template>
-    <ChatFlame v-show="isModalOpen" class="chatModal" @click="closeChatModal"></ChatFlame>
+    <ChatFlame v-show="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 

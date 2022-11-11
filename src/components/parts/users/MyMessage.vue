@@ -26,6 +26,7 @@ export default {
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     position: relative;
     margin:32px 40px 5px auto;
+    word-wrap: break-word;
 }
 
 img {

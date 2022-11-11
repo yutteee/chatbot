@@ -10,9 +10,12 @@
             ></MyMessage>
         </div>
         <div class="messages">
-            <FileUpload v-on:change="selectFile"></FileUpload> 
-            <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-            <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
+            <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
+            <div class="forms">
+                <FileUpload v-on:change="selectFile"></FileUpload> 
+                <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
+                <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
+            </div>
         </div>
     </div>
 </template>
@@ -36,7 +39,7 @@ export default {
     },
     data () {
         return {
-            fileData: '',
+            fileData: [],
             inputMessage: '',
             // 本当はデータベースから持ってくる。
             sendedMessages: [
@@ -49,7 +52,8 @@ export default {
                     content: "How are you?"
                 },
             ],
-            color: '#636363'
+            color: '#636363',
+            // aaa: ''
         }
     },
     methods: {
@@ -66,8 +70,16 @@ export default {
             this.inputMessage = '';
         },
         selectFile : function(event) {
-            this.fileData = event.target.files[0];
+            // const fileReader = new FileReader();
+            // fileReader.onload(function() {
+            //     this.aaa = fileReader.result;
+            // })
+            const endIndex = this.fileData.length
+            
+            this.fileData[endIndex] = event.target.files[0];
             console.log(this.fileData);
+
+            // fileReader.readAsDataURL(this.fileData);
         },
         closeChatModal: function () {
             this.$emit('parentClick');
@@ -75,8 +87,9 @@ export default {
     },
     updated() {
         const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
-        if (spaceDeletedMessage == '') {
+        if (spaceDeletedMessage == '' && this.fileData.length == 0) {
             this.color = '#636363';
+            console.log(this.fileData.length)
         } else {
             this.color = '#0075ff';
         }
@@ -104,14 +117,29 @@ export default {
 
 .messages {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
-    height: 64px;
+    height: auto;
     position: absolute;
     background-color: #fff;
     bottom: 0px;
     width: 400px;
     border-radius: 0 0 10px 10px;
+    flex-wrap: wrap;
+}
+
+.preview {
+    padding-top: 8px;
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+.forms {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    padding-top: 8px;
+    padding-bottom: 16px;
 }
 
 .messages::before {

@@ -3,7 +3,7 @@
         <font-awesome-icon
             icon="fa-solid fa-link"
             class="icon"/>
-        <input type="file" v-on:change="selectFile">
+        <input type="file" v-on:change="selectFile" multiple>
     </label>
     
 </template>

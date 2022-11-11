@@ -2,6 +2,7 @@
     <div class="flame">
         <ChatHeader></ChatHeader>
         <div class="chats">
+            <YourMessage></YourMessage>
             <MyMessage 
                 v-for="sendedMessage in sendedMessages"
                 :key="sendedMessage.id"
@@ -22,6 +23,7 @@ import MessageForm from '../parts/users/MessageForm.vue';
 import FileUpload from '../parts/users/FileUpload.vue'
 import MessageSendButton from '../parts/users/MessageSendButton.vue'
 import MyMessage from '../parts/users/MyMessage.vue';
+import YourMessage from '../parts/users/YourMessage.vue';
 
 export default {
     components: {
@@ -29,7 +31,8 @@ export default {
         MessageForm,
         FileUpload,
         MessageSendButton,
-        MyMessage
+        MyMessage,
+        YourMessage
     },
     data () {
         return {
@@ -52,7 +55,7 @@ export default {
         sendMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
-            
+
             const endIndex = this.sendedMessages.length;
             const sendedMessage = {
                 id: endIndex,

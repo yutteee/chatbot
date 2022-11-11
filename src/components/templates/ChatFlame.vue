@@ -11,7 +11,7 @@
         <div class="messages">
             <FileUpload v-on:change="selectFile"></FileUpload> 
             <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-            <MessageSendButton v-on:click="sendMessage"></MessageSendButton>
+            <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
         </div>
     </div>
 </template>
@@ -44,13 +44,15 @@ export default {
                     id: 1,
                     content: "How are you?"
                 },
-            ]
+            ],
+            color: '#636363'
         }
     },
     methods: {
         sendMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
-            if (spaceDeletedMessage == '') return console.log("error");
+            if (spaceDeletedMessage == '') return console.log('error');
+            
             const endIndex = this.sendedMessages.length;
             const sendedMessage = {
                 id: endIndex,
@@ -64,6 +66,14 @@ export default {
             console.log(this.fileData);
         }
     },
+    updated() {
+        const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+        if (spaceDeletedMessage == '') {
+            this.color = '#636363';
+        } else {
+            this.color = '#0075ff';
+        }
+    }
 }
 
 </script>

@@ -1,6 +1,10 @@
 <template>
     <div class="flame">
         <ChatHeader @childClick="closeChatModal"></ChatHeader>
+        <form @submit.prevent="submitToken">
+            <input type="text" placeholder="Enter token" v-model="token" />
+            <button type="submit">Submit</button>
+        </form>
         <div class="chats">
             <YourMessage></YourMessage>
             <MyMessage 
@@ -8,6 +12,9 @@
                 :key="sendedMessage.id"
                 :message="sendedMessage.content"
             ></MyMessage>
+            <div v-for="user in messages" :key="user.id">
+                {{user.name}}: {{user.message}}
+            </div>
         </div>
         <div class="messages">
             <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
@@ -27,6 +34,12 @@ import FileUpload from '../parts/users/FileUpload.vue'
 import MessageSendButton from '../parts/users/MessageSendButton.vue'
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
+import SocketioService from '../../services/socketio.service.js';
+
+const SENDER = {
+    id: "1234",
+    name: "Nakamura Yusaku",
+};
 
 export default {
     components: {
@@ -39,6 +52,7 @@ export default {
     },
     data () {
         return {
+            token: '',
             fileData: [],
             inputMessage: '',
             // 本当はデータベースから持ってくる。
@@ -52,14 +66,32 @@ export default {
                     content: "How are you?"
                 },
             ],
+            messages: [],
             color: '#636363',
-            // aaa: ''
         }
     },
     methods: {
+        submitToken() {
+        console.log(this.token);
+        SocketioService.setupSocketConnection(this.token);
+        SocketioService.subscribeToMessages((err, data) => {
+            console.log(data);
+            this.messages.push(data);
+        });
+        },
         sendMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
+
+            const CHAT_ROOM = "myRandomChatRoomId";
+            const message = this.inputMessage;
+            SocketioService.sendMessage({message, roomName: CHAT_ROOM}, (cb) => {
+                console.log(cb);
+                this.messages.push({
+                    message,
+                    ...SENDER,
+                })
+            })
 
             const endIndex = this.sendedMessages.length;
             const sendedMessage = {
@@ -68,6 +100,8 @@ export default {
             };
             this.sendedMessages[endIndex] = sendedMessage;
             this.inputMessage = '';
+
+
         },
         selectFile : function(event) {
             // const fileReader = new FileReader();
@@ -89,7 +123,6 @@ export default {
         const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
         if (spaceDeletedMessage == '' && this.fileData.length == 0) {
             this.color = '#636363';
-            console.log(this.fileData.length)
         } else {
             this.color = '#0075ff';
         }

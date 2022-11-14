@@ -5,6 +5,20 @@
 </div>
 </template>
 
-<script setup>
+<script>
 import MyHeader from './components/templates/MyHeader.vue'
+import SocketioService from './services/socketio.service.js';
+
+export default {
+  components: {
+    MyHeader
+  },
+  // 本当はchatモーダル開いたときに接続したい
+  created() {
+    SocketioService.setupSocketConnection();
+  },
+  beforeUnmount() {
+    SocketioService.disconnect();
+  },
+}
 </script>

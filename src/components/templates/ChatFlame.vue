@@ -8,13 +8,13 @@
         <div class="chats">
             <YourMessage></YourMessage>
             <MyMessage 
-                v-for="sendedMessage in sendedMessages"
-                :key="sendedMessage.id"
-                :message="sendedMessage.content"
+                v-for="user in messages"
+                :key="user.id"
+                :message="user.message"
             ></MyMessage>
-            <div v-for="user in messages" :key="user.id">
+            <!-- <div v-for="user in messages" :key="user.id">
                 {{user.name}}: {{user.message}}
-            </div>
+            </div> -->
         </div>
         <div class="messages">
             <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
@@ -55,17 +55,6 @@ export default {
             token: '',
             fileData: [],
             inputMessage: '',
-            // 本当はデータベースから持ってくる。
-            sendedMessages: [
-                {
-                    id: 0,
-                    content: "Hi!"
-                },
-                {
-                    id: 1,
-                    content: "How are you?"
-                },
-            ],
             messages: [],
             color: '#636363',
         }
@@ -92,16 +81,7 @@ export default {
                     ...SENDER,
                 })
             })
-
-            const endIndex = this.sendedMessages.length;
-            const sendedMessage = {
-                id: endIndex,
-                content: this.inputMessage
-            };
-            this.sendedMessages[endIndex] = sendedMessage;
             this.inputMessage = '';
-
-
         },
         selectFile : function(event) {
             // const fileReader = new FileReader();

@@ -19,6 +19,7 @@
 import LoginButton from '../parts/LoginButton.vue';
 import NameForm from '../parts/NameForm.vue';
 import PasswordForm from '../parts/PasswordForm.vue';
+import http from '../../axios/index.js';
 
 export default {
     components: {
@@ -33,8 +34,10 @@ export default {
         }
     },
     methods: {
-        submit: function() {
+        submit: async function() {
             this.$store.commit('login', {name: this.name, id :this.password})
+            let response = await http.post('/user', {name: this.name})
+            console.log(response)
             this.$router.push('/users')
         }
     }

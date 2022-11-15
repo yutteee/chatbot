@@ -1,19 +1,27 @@
 const app = require('express')();
 const http = require('http').createServer(app);
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+
+app.use(bodyParser.json());
+app.use(cors());
+
+app.post('/user', function(req, res){
+    res.send({
+        message: req.body.name
+    })
+})
 
 // jwt secret
 const JWT_SECRET = 'myRandomHash';
 
+
 const io = require("socket.io")(http, {
 	cors: {
 		origins: ["http://localhost:8080"],
-    credentials: true
+        credentials: true
 	},
-});
-
-app.get('/', (req, res) => {
-  res.send('<h1>Hey Socket.io</h1>');
 });
 
 io.use(async (socket, next) => {
@@ -21,6 +29,7 @@ io.use(async (socket, next) => {
   const token = socket.handshake.auth.token;
   try {
     // verify jwt token and get user data
+    // ここの部分をJWTじゃなくてログイン画面から受け取る
     const user = await jwt.verify(token, JWT_SECRET);
     console.log('user', user);
     // save the user data into socket object, to be used further

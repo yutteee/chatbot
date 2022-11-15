@@ -34,8 +34,8 @@
 <script>
 import ChatHeader from '../parts/users/ChatHeader.vue';
 import MessageForm from '../parts/users/MessageForm.vue';
-import FileUpload from '../parts/users/FileUpload.vue'
-import MessageSendButton from '../parts/users/MessageSendButton.vue'
+import FileUpload from '../parts/users/FileUpload.vue';
+import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';

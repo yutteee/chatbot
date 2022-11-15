@@ -6,12 +6,16 @@
             <button type="submit">Submit</button>
         </form>
         <div class="chats">
-            <YourMessage></YourMessage>
-            <MyMessage 
-                v-for="user in messages"
-                :key="user.id"
-                :message="user.message"
-            ></MyMessage>
+            <div v-for="user in messages" :key="user.id">
+                <YourMessage
+                    v-if="user.name !== $store.state.user_name"
+                    :message="user.message"
+                ></YourMessage>
+                <MyMessage 
+                    v-else
+                    :message="user.message"
+                ></MyMessage>
+            </div>
             <!-- <div v-for="user in messages" :key="user.id">
                 {{user.name}}: {{user.message}}
             </div> -->
@@ -38,7 +42,7 @@ import SocketioService from '../../services/socketio.service.js';
 
 const SENDER = {
     id: "1234",
-    name: "Nakamura Yusaku",
+    name: "Nakamura",
 };
 
 export default {

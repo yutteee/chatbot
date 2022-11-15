@@ -34,7 +34,8 @@ export default {
     },
     methods: {
         submit: function() {
-            console.log(this.name, this.password)
+            this.$store.commit('login', {name: this.name, id :this.password})
+            this.$router.push('/users')
         }
     }
 }

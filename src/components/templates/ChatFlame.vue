@@ -6,19 +6,16 @@
             <button type="submit">Submit</button>
         </form>
         <div class="chats">
-            <div v-for="user in messages" :key="user.id">
+            <div v-for="message in messages" :key="message.message">
                 <YourMessage
-                    v-if="user.name !== $store.state.user_name"
-                    :message="user.message"
+                    v-if="message.userName !== $store.state.user_name"
+                    :message="message.message"
                 ></YourMessage>
                 <MyMessage 
                     v-else
-                    :message="user.message"
+                    :message="message.message"
                 ></MyMessage>
             </div>
-            <!-- <div v-for="user in messages" :key="user.id">
-                {{user.name}}: {{user.message}}
-            </div> -->
         </div>
         <div class="messages">
             <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
@@ -40,10 +37,6 @@ import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 
-// const SENDER = {
-//     id: "1234",
-//     name: "Nakamura",
-// };
 
 export default {
     components: {
@@ -67,30 +60,20 @@ export default {
         SocketioService.setupSocketConnection();
     },
     mounted() {
-        // this.messages = SocketioService.getMessage().messages;
+        // SocketioService.getMessage(this.messages);
+        SocketioService.getMessage((err, data) => {
+            this.messages = data;
+        })
     },
     methods: {
         submitToken() {
-        console.log(this.token);
         SocketioService.createRoom(this.$store.state.user_name, this.token)
-        // SocketioService.subscribeToMessages((err, data) => {
-        //     console.log(data);
-        //     this.messages.push(data);
-        // });
         },
         sendMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
 
-            // const CHAT_ROOM = "myRandomChatRoomId";
             const message = this.inputMessage;
-            // SocketioService.sendMessage({message, roomName: CHAT_ROOM}, (cb) => {
-            //     console.log(cb);
-            //     this.messages.push({
-            //         message,
-            //         ...SENDER,
-            //     })
-            // })
             SocketioService.sendMessage(message);
             this.inputMessage = '';
         },
@@ -108,7 +91,7 @@ export default {
         },
         closeChatModal: function () {
             this.$emit('parentClick');
-        }
+        },
     },
     updated() {
         const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');

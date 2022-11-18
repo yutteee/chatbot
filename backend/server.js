@@ -30,24 +30,6 @@ const io = require("socket.io")(http, {
 	},
 });
 
-// io.use(async (socket, next) => {
-//   // fetch token from handshake auth sent by FE
-//   const token = socket.handshake.auth.token;
-//   try {
-//     // verify jwt token and get user data
-//     // ここの部分をJWTじゃなくてログイン画面から受け取る
-//     const user = await jwt.verify(token, JWT_SECRET);
-//     console.log('user', user);
-//     // save the user data into socket object, to be used further
-//     socket.user = user;
-//     next();
-//   } catch (e) {
-//     // if token is invalid, close connection
-//     console.log('error', e.message);
-//     return next(new Error(e.message));
-//   }
-// });
-
 const rooms = [];
 const users = [];
 
@@ -70,18 +52,18 @@ io.on('connection', (socket) => {
       rooms.push(room);
   
       socket.join(roomID);
+      console.log(users);
     } else {
       users.push(user);
       rooms[isRoomExist].users.push(user);
       socket.join(rooms[isRoomExist].id);
+      console.log(users);
     };
     // メッセージを受け取る
     socket.on('chat message', function(msg) {
       // socket.idからuser情報、どのroomにいるかを取得
       const user = users.find((u) => u.id == socket.id);
-      console.log(user);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
-      console.log(roomIndex);
       const room = rooms[roomIndex];
       // メッセージを保存
       rooms[roomIndex].messages.unshift({
@@ -90,47 +72,9 @@ io.on('connection', (socket) => {
       });
       console.log(room);
       // 受け取ったメーセージを返す
-      io.emit('chat message', room);
-      // io.in(room.id).emit("chat message", room);
+      io.in(room.id).emit('get message', room);
     })
   });
-
-
-  // // join user's own room
-  // socket.join(socket.user.id);
-  // socket.join('myRandomChatRoomId');
-  // // find user's all channels from the database and call join event on all of them.
-  // console.log('a user connected');
-  // socket.on('disconnect', () => {
-  //   console.log('user disconnected');
-  // });
-  // socket.on('my message', (msg) => {
-  //   console.log('message: ' + msg);
-  //   io.emit('my broadcast', `server: ${msg}`);
-  // });
-
-  // socket.on('join', (roomName) => {
-  //   console.log('join: ' + roomName);
-  //   socket.join(roomName);
-  // });
-
-  // socket.on('message', ({message, roomName}, callback) => {
-  //   console.log('message: ' + message + ' in ' + roomName);
-
-  //   // generate data to send to receivers
-  //   const outgoingMessage = {
-  //     name: socket.user.name,
-  //     id: socket.user.id,
-  //     message,
-  //   };
-  //   // send socket to all in room except sender
-  //   socket.to(roomName).emit("message", outgoingMessage);
-  //   callback({
-  //     status: "ok"
-  //   });
-  //   // send to all including sender
-  //   io.to(roomName).emit('message', message);
-  // })
 });
 
 http.listen(3000, () => {

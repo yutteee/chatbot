@@ -13,21 +13,13 @@ class SocketioService {
     this.socket.emit("create", user_name, roomID);
   }
 
-  subscribeToMessages(cb) {
-    if (!this.socket) return(true);
-    this.socket.on('message', msg => {
-      console.log('Room event received!');
-      return cb(null, msg);
-    });
-  }
-  
   sendMessage(message) {
     this.socket.emit('chat message', message);
   }
 
-  getMessage() {
-    this.socket.on('chat message',function(room){
-      return room;
+  getMessage(cb) {
+    this.socket.on('get message',function(room){
+      return cb(null, room.messages);
     });
   }
   

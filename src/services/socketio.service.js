@@ -9,8 +9,8 @@ class SocketioService {
     console.log(`Connecting socket...`);
   }
 
-  createRoom(user_name, user_id, roomID) {
-    this.socket.emit("create", user_name, user_id, roomID);
+  createRoom(user_name, roomID) {
+    this.socket.emit("create", user_name, roomID);
   }
 
   subscribeToMessages(cb) {
@@ -26,8 +26,8 @@ class SocketioService {
   }
 
   getMessage() {
-    this.socket.on('chat message',function(msg){
-      console.log(msg)
+    this.socket.on('chat message',function(room){
+      return room;
     });
   }
   

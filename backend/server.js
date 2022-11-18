@@ -52,37 +52,49 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  // メッセージを受け取る
-  socket.on('chat message', function(msg) {
-    // 受け取ったメーセージを返す
-    io.emit('chat message', msg);
-  })
-
   // room作成
-  socket.on('create', function(user_name, user_id, roomID) {
-    const isRoomExist = rooms.findIndex((array) => array.id == roomID)
+  socket.on('create', function(user_name, roomID) {
+    const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
-      id: user_id,
+      id: socket.id,
       roomID
     };
     const room = {
       id: roomID,
       users: [user],
+      messages: []
     };
     if(isRoomExist == -1) {
       users.push(user);
       rooms.push(room);
   
       socket.join(roomID);
-      console.log(room.users);
     } else {
-      rooms[isRoomExist].users.push(user);
       users.push(user);
+      rooms[isRoomExist].users.push(user);
       socket.join(rooms[isRoomExist].id);
-      console.log(room.users);
-    }
-  })
+    };
+    // メッセージを受け取る
+    socket.on('chat message', function(msg) {
+      // socket.idからuser情報、どのroomにいるかを取得
+      const user = users.find((u) => u.id == socket.id);
+      console.log(user);
+      const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
+      console.log(roomIndex);
+      const room = rooms[roomIndex];
+      // メッセージを保存
+      rooms[roomIndex].messages.unshift({
+        userName: user.name,
+        message: msg
+      });
+      console.log(room);
+      // 受け取ったメーセージを返す
+      io.emit('chat message', room);
+      // io.in(room.id).emit("chat message", room);
+    })
+  });
+
 
   // // join user's own room
   // socket.join(socket.user.id);

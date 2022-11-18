@@ -67,12 +67,12 @@ export default {
         SocketioService.setupSocketConnection();
     },
     mounted() {
-        SocketioService.getMessage();
+        // this.messages = SocketioService.getMessage().messages;
     },
     methods: {
         submitToken() {
         console.log(this.token);
-        SocketioService.createRoom(this.$store.state.user_name, this.$store.state.user_id, this.token)
+        SocketioService.createRoom(this.$store.state.user_name, this.token)
         // SocketioService.subscribeToMessages((err, data) => {
         //     console.log(data);
         //     this.messages.push(data);

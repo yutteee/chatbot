@@ -61,24 +61,26 @@ io.on('connection', (socket) => {
   // room作成
   socket.on('create', function(user_name, user_id, roomID) {
     const isRoomExist = rooms.findIndex((array) => array.id == roomID)
+    const user = {
+      name: user_name,
+      id: user_id,
+      roomID
+    };
+    const room = {
+      id: roomID,
+      users: [user],
+    };
     if(isRoomExist == -1) {
-      const user = {
-        name: user_name,
-        id: user_id,
-        roomID
-      };
-      const room = {
-        id: roomID,
-        users: [user],
-      };
       users.push(user);
       rooms.push(room);
   
-      // 部屋に入る
       socket.join(roomID);
-      console.log(user);
+      console.log(room.users);
     } else {
-      console.log('部屋あるよ')
+      rooms[isRoomExist].users.push(user);
+      users.push(user);
+      socket.join(rooms[isRoomExist].id);
+      console.log(room.users);
     }
   })
 

@@ -7,10 +7,20 @@ const jwt = require('jsonwebtoken');
 app.use(bodyParser.json());
 app.use(cors());
 
+let userData = {
+  room: "",
+  name: "",
+  id: 0,
+  message: "",
+}
+
+const postUserData = function (req, res) {
+  userData.name = req.body.name;
+  userData.id = req.body.id;
+};
+
 app.post('/user', function(req, res){
-    res.send({
-        message: req.body.name
-    })
+    res.json(postUserData(req, res));
 })
 
 // jwt secret

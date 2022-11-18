@@ -35,8 +35,9 @@ export default {
     },
     methods: {
         submit: async function() {
-            this.$store.commit('login', {name: this.name, id :this.password})
-            let response = await http.post('/user', {name: this.name})
+            const user = {name: this.name, id :this.password}
+            this.$store.commit('login', user)
+            const response = await http.post('/user', user)
             console.log(response)
             this.$router.push('/users')
         }

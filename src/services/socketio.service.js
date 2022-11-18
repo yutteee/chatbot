@@ -4,17 +4,13 @@ class SocketioService {
   socket;
   constructor() {}
 
-  setupSocketConnection(token) {
-    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT, {
-      auth: {
-        token,
-      },
-    });
+  setupSocketConnection() {
+    this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT);
     console.log(`Connecting socket...`);
-    
-    this.socket.on('my broadcast', (data) => {
-      console.log(data);
-    });
+  }
+
+  createRoom(user_name, user_id, roomID) {
+    this.socket.emit("create", user_name, user_id, roomID);
   }
 
   subscribeToMessages(cb) {
@@ -25,8 +21,14 @@ class SocketioService {
     });
   }
   
-  sendMessage({message, roomName}, cb) {
-    if (this.socket) this.socket.emit('message', { message, roomName }, cb);
+  sendMessage(message) {
+    this.socket.emit('chat message', message);
+  }
+
+  getMessage() {
+    this.socket.on('chat message',function(msg){
+      console.log(msg)
+    });
   }
   
   disconnect() {

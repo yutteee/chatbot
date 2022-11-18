@@ -40,10 +40,10 @@ import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 
-const SENDER = {
-    id: "1234",
-    name: "Nakamura",
-};
+// const SENDER = {
+//     id: "1234",
+//     name: "Nakamura",
+// };
 
 export default {
     components: {
@@ -63,28 +63,35 @@ export default {
             color: '#636363',
         }
     },
+    created() {
+        SocketioService.setupSocketConnection();
+    },
+    mounted() {
+        SocketioService.getMessage();
+    },
     methods: {
         submitToken() {
         console.log(this.token);
-        SocketioService.setupSocketConnection(this.token);
-        SocketioService.subscribeToMessages((err, data) => {
-            console.log(data);
-            this.messages.push(data);
-        });
+        SocketioService.createRoom(this.$store.state.user_name, this.$store.state.user_id, this.token)
+        // SocketioService.subscribeToMessages((err, data) => {
+        //     console.log(data);
+        //     this.messages.push(data);
+        // });
         },
         sendMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
 
-            const CHAT_ROOM = "myRandomChatRoomId";
+            // const CHAT_ROOM = "myRandomChatRoomId";
             const message = this.inputMessage;
-            SocketioService.sendMessage({message, roomName: CHAT_ROOM}, (cb) => {
-                console.log(cb);
-                this.messages.push({
-                    message,
-                    ...SENDER,
-                })
-            })
+            // SocketioService.sendMessage({message, roomName: CHAT_ROOM}, (cb) => {
+            //     console.log(cb);
+            //     this.messages.push({
+            //         message,
+            //         ...SENDER,
+            //     })
+            // })
+            SocketioService.sendMessage(message);
             this.inputMessage = '';
         },
         selectFile : function(event) {

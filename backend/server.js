@@ -34,8 +34,7 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  // room作成
-  socket.on('create', function(user_name, roomID) {
+  socket.on('create room', function(user_name, roomID) {
     const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
@@ -47,31 +46,31 @@ io.on('connection', (socket) => {
       users: [user],
       messages: []
     };
-    if(isRoomExist == -1) {
+    const empty = -1;
+    if(isRoomExist == empty) {
       users.push(user);
       rooms.push(room);
-  
       socket.join(roomID);
       console.log(users);
     } else {
+      // Currently there is room for more than one person to enter the room.
       users.push(user);
       rooms[isRoomExist].users.push(user);
       socket.join(rooms[isRoomExist].id);
       console.log(users);
     };
-    // メッセージを受け取る
-    socket.on('chat message', function(msg) {
-      // socket.idからuser情報、どのroomにいるかを取得
+
+    socket.on('send message', function(msg) {
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
-      // メッセージを保存
+
       rooms[roomIndex].messages.unshift({
-        userName: user.name,
-        message: msg
+        name: user.name,
+        text: msg
       });
       console.log(room);
-      // 受け取ったメーセージを返す
+
       io.in(room.id).emit('get message', room);
     })
   });

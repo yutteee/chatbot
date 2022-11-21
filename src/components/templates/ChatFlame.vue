@@ -1,19 +1,19 @@
 <template>
     <div class="flame">
         <ChatHeader @childClick="closeChatModal"></ChatHeader>
-        <form @submit.prevent="submitToken">
-            <input type="text" placeholder="Enter token" v-model="token" />
+        <form @submit.prevent="submitRoomID">
+            <input type="text" placeholder="Enter roomID" v-model="roomID" />
             <button type="submit">Submit</button>
         </form>
         <div class="chats">
-            <div v-for="message in messages" :key="message.message">
+            <div v-for="message in messages" :key="message.text">
                 <YourMessage
-                    v-if="message.userName !== $store.state.user_name"
-                    :message="message.message"
+                    v-if="message.name !== $store.state.user_name"
+                    :message="message.text"
                 ></YourMessage>
                 <MyMessage 
                     v-else
-                    :message="message.message"
+                    :message="message.text"
                 ></MyMessage>
             </div>
         </div>
@@ -49,7 +49,7 @@ export default {
     },
     data () {
         return {
-            token: '',
+            roomID: '',
             fileData: [],
             inputMessage: '',
             messages: [],
@@ -60,20 +60,19 @@ export default {
         SocketioService.setupSocketConnection();
     },
     mounted() {
-        // SocketioService.getMessage(this.messages);
-        SocketioService.getMessage((err, data) => {
-            this.messages = data;
+        SocketioService.getMessage((err, latestMessages) => {
+            this.messages = latestMessages;
         })
     },
     methods: {
-        submitToken() {
-        SocketioService.createRoom(this.$store.state.user_name, this.token)
+        submitRoomID() {
+            SocketioService.createRoom(this.$store.state.user_name, this.roomID)
         },
         sendMessage : function() {
-            const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+            const message = this.inputMessage;
+            const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
 
-            const message = this.inputMessage;
             SocketioService.sendMessage(message);
             this.inputMessage = '';
         },
@@ -85,7 +84,6 @@ export default {
             const endIndex = this.fileData.length
             
             this.fileData[endIndex] = event.target.files[0];
-            console.log(this.fileData);
 
             // fileReader.readAsDataURL(this.fileData);
         },

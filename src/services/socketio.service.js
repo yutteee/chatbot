@@ -10,16 +10,16 @@ class SocketioService {
   }
 
   createRoom(user_name, roomID) {
-    this.socket.emit("create", user_name, roomID);
+    this.socket.emit("create room", user_name, roomID);
   }
 
   sendMessage(message) {
-    this.socket.emit('chat message', message);
+    this.socket.emit('send message', message);
   }
 
-  getMessage(cb) {
+  getMessage(callback) {
     this.socket.on('get message',function(room){
-      return cb(null, room.messages);
+      return callback(null, room.messages);
     });
   }
   

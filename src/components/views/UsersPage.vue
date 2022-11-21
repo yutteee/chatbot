@@ -1,4 +1,5 @@
 <template>
+    <MyHeader></MyHeader>
     <ChatFlame v-show="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
@@ -6,11 +7,13 @@
 <script>
 import FloatingActionButton from '../parts/FloatingActionButton.vue';
 import ChatFlame from '../templates/ChatFlame.vue';
+import MyHeader from '../templates/MyHeader.vue'
 
 export default {
     components: {
         FloatingActionButton,
-        ChatFlame
+        ChatFlame,
+        MyHeader
     },
     data () {
         return {

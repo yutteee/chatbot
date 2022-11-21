@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
-      rooms[roomIndex].messages.unshift({
+      rooms[roomIndex].messages.push({
         name: user.name,
         text: msg
       });

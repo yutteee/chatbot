@@ -6,15 +6,17 @@
             <button type="submit">Submit</button>
         </form>
         <div class="chats">
-            <div v-for="message in messages" :key="message.text">
-                <YourMessage
-                    v-if="message.name !== $store.state.user_name"
-                    :message="message.text"
-                ></YourMessage>
-                <MyMessage 
-                    v-else
-                    :message="message.text"
-                ></MyMessage>
+            <div ref="chatScreen">
+                <div v-for="message in messages" :key="message.text">
+                    <YourMessage
+                        v-if="message.name !== $store.state.user_name"
+                        :message="message.text"
+                    ></YourMessage>
+                    <MyMessage 
+                        v-else
+                        :message="message.text"
+                    ></MyMessage>
+                </div>
             </div>
         </div>
         <div class="messages">
@@ -62,7 +64,7 @@ export default {
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages;
-        })
+        });
     },
     methods: {
         submitRoomID() {
@@ -98,6 +100,8 @@ export default {
         } else {
             this.color = '#0075ff';
         }
+        const chatTarget = this.$refs.chatScreen;
+        chatTarget.scrollIntoView(false);
     }
 }
 

@@ -1,13 +1,17 @@
 <template>
     <div class="flame">
         <ChatHeader @childClick="closeChatModal"></ChatHeader>
-        <div class="chats">
-            <YourMessage></YourMessage>
-            <MyMessage 
-                v-for="sendedMessage in sendedMessages"
-                :key="sendedMessage.id"
-                :message="sendedMessage.content"
-            ></MyMessage>
+        <div class="chats" ref="myModal">
+            <div v-for="message in messages" :key="message.text">
+                <YourMessage
+                    v-if="message.name !== $store.state.user_name"
+                    :message="message.text"
+                ></YourMessage>
+                <MyMessage 
+                    v-else
+                    :message="message.text"
+                ></MyMessage>
+            </div>
         </div>
         <div class="messages">
             <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
@@ -23,10 +27,12 @@
 <script>
 import ChatHeader from '../parts/users/ChatHeader.vue';
 import MessageForm from '../parts/users/MessageForm.vue';
-import FileUpload from '../parts/users/FileUpload.vue'
-import MessageSendButton from '../parts/users/MessageSendButton.vue'
+import FileUpload from '../parts/users/FileUpload.vue';
+import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
+import SocketioService from '../../services/socketio.service.js';
+
 
 export default {
     components: {
@@ -39,34 +45,30 @@ export default {
     },
     data () {
         return {
+            roomID: 'room',
             fileData: [],
             inputMessage: '',
-            // 本当はデータベースから持ってくる。
-            sendedMessages: [
-                {
-                    id: 0,
-                    content: "Hi!"
-                },
-                {
-                    id: 1,
-                    content: "How are you?"
-                },
-            ],
+            messages: [],
             color: '#636363',
-            // aaa: ''
         }
+    },
+    created() {
+        SocketioService.setupSocketConnection();
+        SocketioService.createRoom(this.$store.state.user_name, this.roomID)
+    },
+    mounted() {
+        SocketioService.getMessage((err, latestMessages) => {
+            this.messages = latestMessages;
+            this.scrollToEnd();
+        });
     },
     methods: {
         sendMessage : function() {
-            const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+            const message = this.inputMessage;
+            const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
 
-            const endIndex = this.sendedMessages.length;
-            const sendedMessage = {
-                id: endIndex,
-                content: this.inputMessage
-            };
-            this.sendedMessages[endIndex] = sendedMessage;
+            SocketioService.sendMessage(message);
             this.inputMessage = '';
         },
         selectFile : function(event) {
@@ -77,23 +79,28 @@ export default {
             const endIndex = this.fileData.length
             
             this.fileData[endIndex] = event.target.files[0];
-            console.log(this.fileData);
 
             // fileReader.readAsDataURL(this.fileData);
         },
         closeChatModal: function () {
             this.$emit('parentClick');
+        },
+        scrollToEnd() {
+            this.$nextTick(() => {
+                this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
+            })
         }
     },
-    updated() {
-        const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
-        if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-            this.color = '#636363';
-            console.log(this.fileData.length)
-        } else {
-            this.color = '#0075ff';
-        }
-    }
+    watch: {
+        inputMessage : function() {
+            const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) {
+                this.color = '#636363';
+            } else {
+                this.color = '#0075ff';
+            }
+        },
+    },
 }
 
 </script>

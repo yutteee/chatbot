@@ -1,15 +1,15 @@
 <template>
     <div class="message">
-        AI will answer your questions. Feel free to ask questions.
+        {{message}}
         <img src="../../../assets/logo.png">
     </div>
 </template>
 
 <script>
 export default {
-    // props: {
-    //     message: String
-    // }
+    props: {
+        message: String
+    }
 }
 </script>
 

@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted () {
-    if(this.$store.state.user_id == null) {
+    if(this.$store.state.user_id == 0) {
       this.isLogin = false;
     }
   }

@@ -1,6 +1,6 @@
 <template>
     <MyHeader></MyHeader>
-    <ChatFlame v-show="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
+    <ChatFlame v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 
@@ -17,7 +17,8 @@ export default {
     },
     data () {
         return {
-            isModalOpen: false
+            isModalOpen: false,
+            roomID: "room"
         }
     },
     methods: {

@@ -32,6 +32,7 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
+// import axios from 'axios'
 
 
 export default {
@@ -68,8 +69,21 @@ export default {
             const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '') return console.log('error');
 
-            SocketioService.sendMessage(message);
+            // const formData = new FormData();
+            // formData.append('file', this.fileData);
+            // axios.post('/file', formData)
+            //     .then(function(response){
+            //         console.log('ok!!')
+            //         console.log(response);
+            //     })
+            //     .catch(function(err){
+            //         console.log("error!!")
+            //         console.log(err);
+            //     });
+
+            SocketioService.sendMessage(message, this.fileData);
             this.inputMessage = '';
+            this.fileData = [];
         },
         selectFile : function(event) {
             // const fileReader = new FileReader();

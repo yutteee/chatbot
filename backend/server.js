@@ -60,14 +60,15 @@ io.on('connection', (socket) => {
       console.log(users);
     };
 
-    socket.on('send message', function(msg) {
+    socket.on('send message', function(msg, file) {
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
       rooms[roomIndex].messages.push({
         name: user.name,
-        text: msg
+        text: msg,
+        file: file
       });
       console.log(room);
 

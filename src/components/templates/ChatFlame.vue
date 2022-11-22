@@ -1,22 +1,16 @@
 <template>
     <div class="flame">
         <ChatHeader @childClick="closeChatModal"></ChatHeader>
-        <form @submit.prevent="submitRoomID">
-            <input type="text" placeholder="Enter roomID" v-model="roomID" />
-            <button type="submit">Submit</button>
-        </form>
-        <div class="chats">
-            <div ref="chatScreen">
-                <div v-for="message in messages" :key="message.text">
-                    <YourMessage
-                        v-if="message.name !== $store.state.user_name"
-                        :message="message.text"
-                    ></YourMessage>
-                    <MyMessage 
-                        v-else
-                        :message="message.text"
-                    ></MyMessage>
-                </div>
+        <div class="chats" ref="myModal">
+            <div v-for="message in messages" :key="message.text">
+                <YourMessage
+                    v-if="message.name !== $store.state.user_name"
+                    :message="message.text"
+                ></YourMessage>
+                <MyMessage 
+                    v-else
+                    :message="message.text"
+                ></MyMessage>
             </div>
         </div>
         <div class="messages">
@@ -51,7 +45,7 @@ export default {
     },
     data () {
         return {
-            roomID: '',
+            roomID: 'room',
             fileData: [],
             inputMessage: '',
             messages: [],
@@ -60,16 +54,15 @@ export default {
     },
     created() {
         SocketioService.setupSocketConnection();
+        SocketioService.createRoom(this.$store.state.user_name, this.roomID)
     },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages;
+            this.scrollToEnd();
         });
     },
     methods: {
-        submitRoomID() {
-            SocketioService.createRoom(this.$store.state.user_name, this.roomID)
-        },
         sendMessage : function() {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
@@ -92,17 +85,22 @@ export default {
         closeChatModal: function () {
             this.$emit('parentClick');
         },
-    },
-    updated() {
-        const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
-        if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-            this.color = '#636363';
-        } else {
-            this.color = '#0075ff';
+        scrollToEnd() {
+            this.$nextTick(() => {
+                this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
+            })
         }
-        const chatTarget = this.$refs.chatScreen;
-        chatTarget.scrollIntoView(false);
-    }
+    },
+    watch: {
+        inputMessage : function() {
+            const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) {
+                this.color = '#636363';
+            } else {
+                this.color = '#0075ff';
+            }
+        },
+    },
 }
 
 </script>

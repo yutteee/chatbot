@@ -20,7 +20,7 @@
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-                <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
+                <MessageSendButton v-on:click="sendMessage" :color="sendButtonColor"></MessageSendButton>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@ export default {
             fileData: [],
             inputMessage: '',
             messages: [],
-            color: '#636363',
+            sendButtonColor: '#636363',
         }
     },
     created() {
@@ -83,13 +83,10 @@ export default {
             //         console.log(err);
             //     });
 
-            // どのように2つの関数を設定する？
-            // メッセージがない場合、sendMessageを発火しない
-            // ファイルがない場合、sendFileを発火しない
-
             SocketioService.sendMessage(message, this.fileData);
             this.inputMessage = '';
             this.fileData = [];
+            this.sendButtonColor = '#636363';
         },
         selectFile : function(event) {
             // const fileReader = new FileReader();
@@ -99,6 +96,7 @@ export default {
             const endIndex = this.fileData.length
             
             this.fileData[endIndex] = event.target.files[0];
+            this.sendButtonColor = '#0075ff';
 
             // fileReader.readAsDataURL(this.fileData);
         },
@@ -115,9 +113,9 @@ export default {
         inputMessage : function() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-                this.color = '#636363';
+                this.sendButtonColor = '#636363';
             } else {
-                this.color = '#0075ff';
+                this.sendButtonColor = '#0075ff';
             }
         },
     },

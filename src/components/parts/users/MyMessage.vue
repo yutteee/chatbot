@@ -11,7 +11,7 @@
 <script>
 export default {
     props: {
-        file: String,
+        file: Object,
         message: String
     }
 }

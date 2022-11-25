@@ -7,7 +7,6 @@
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
                     :file="message.file"
-                    
                 ></YourMessage>
                 <MyMessage 
                     v-else
@@ -70,7 +69,7 @@ export default {
         sendMessage : function() {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
-            if (spaceDeletedMessage == '') return console.log('error');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) return console.log('error');
 
             // const formData = new FormData();
             // formData.append('file', this.fileData);
@@ -84,7 +83,11 @@ export default {
             //         console.log(err);
             //     });
 
-            SocketioService.sendMessage(message, this.fileData[0].name);
+            // どのように2つの関数を設定する？
+            // メッセージがない場合、sendMessageを発火しない
+            // ファイルがない場合、sendFileを発火しない
+
+            SocketioService.sendMessage(message, this.fileData);
             this.inputMessage = '';
             this.fileData = [];
         },

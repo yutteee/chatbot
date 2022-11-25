@@ -14,9 +14,7 @@ class SocketioService {
   }
 
   sendMessage(message, file) {
-    console.log(message, file);
     this.socket.emit('send message', message, file);
-    console.log(message, file);
   }
 
   getMessage(callback) {

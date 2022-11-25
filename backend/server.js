@@ -66,13 +66,19 @@ io.on('connection', (socket) => {
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
+      for(let i = 0; i < file.length; i++) {
+        rooms[roomIndex].messages.push({
+          name: user.name,
+          text: '',
+          file: file[i]
+        });
+      }
       rooms[roomIndex].messages.push({
         name: user.name,
         text: message,
-        file: file
+        file: {},
       });
       console.log(room);
-
       io.in(room.id).emit('get message', room);
     })
   });

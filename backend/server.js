@@ -22,6 +22,7 @@ app.post('/user', function(req, res){
   res.json(postUserData(req, res));
 })
 
+// -------------------------------------------
 
 const io = require("socket.io")(http, {
 	cors: {
@@ -60,14 +61,14 @@ io.on('connection', (socket) => {
       console.log(users);
     };
 
-    socket.on('send message', function(msg, file) {
+    socket.on('send message', function(message, file) {
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
       rooms[roomIndex].messages.push({
         name: user.name,
-        text: msg,
+        text: message,
         file: file
       });
       console.log(room);

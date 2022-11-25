@@ -6,10 +6,13 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
+                    :file="message.file"
+                    
                 ></YourMessage>
                 <MyMessage 
                     v-else
                     :message="message.text"
+                    :file="message.file"
                 ></MyMessage>
             </div>
         </div>
@@ -81,7 +84,7 @@ export default {
             //         console.log(err);
             //     });
 
-            SocketioService.sendMessage(message, this.fileData);
+            SocketioService.sendMessage(message, this.fileData[0].name);
             this.inputMessage = '';
             this.fileData = [];
         },

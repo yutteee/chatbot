@@ -1,4 +1,5 @@
 <template>
+    <div>{{file}}</div>
     <div class="message">
         {{ message }}
         <img src="../../../assets/logo.png">
@@ -8,6 +9,7 @@
 <script>
 export default {
     props: {
+        file: String,
         message: String
     }
 }

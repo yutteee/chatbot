@@ -73,14 +73,17 @@ io.on('connection', (socket) => {
           text: '',
           file: file[i]
         });
-      }
+      };
       // send message
-      rooms[roomIndex].messages.push({
-        name: user.name,
-        text: message,
-        file: {},
-      });
+      if(message != ''){
+        rooms[roomIndex].messages.push({
+          name: user.name,
+          text: message,
+          file: {},
+        });
+      };
 
+      console.log(room);
       io.in(room.id).emit('get message', room);
     })
   });

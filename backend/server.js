@@ -66,6 +66,7 @@ io.on('connection', (socket) => {
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
+      // send file
       for(let i = 0; i < file.length; i++) {
         rooms[roomIndex].messages.push({
           name: user.name,
@@ -73,12 +74,13 @@ io.on('connection', (socket) => {
           file: file[i]
         });
       }
+      // send message
       rooms[roomIndex].messages.push({
         name: user.name,
         text: message,
         file: {},
       });
-      console.log(room);
+
       io.in(room.id).emit('get message', room);
     })
   });

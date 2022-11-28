@@ -16,9 +16,10 @@
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="preview in previewImgs" :key="preview">
+            <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
                 <img v-if="preview !== null" v-bind:src="preview" class="preview-img">
                 <img v-else src="../../assets/logo.png" class="preview-img">
+                <button @click="deleteFile(index)">a</button>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -103,10 +104,10 @@ export default {
                 if(file.type == "image/jpeg") {
                     return URL.createObjectURL(file);
                 } else {
-                    console.log(file.type)
+                    console.log(file.type);
                     return null;
                 }
-            })
+            });
 
             this.sendButtonColor = '#0075ff';
         },
@@ -117,7 +118,11 @@ export default {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
             })
-        }
+        },
+        deleteFile: function (index) {
+            delete this.fileData[index];
+            delete this.previewImgs[index];
+        } 
     },
     watch: {
         inputMessage : function() {

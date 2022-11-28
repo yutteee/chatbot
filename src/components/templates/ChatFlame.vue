@@ -97,17 +97,19 @@ export default {
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
 
-            const fileReader = new FileReader();
+            // const fileReader = new FileReader();
 
-            fileReader.onload = function(e) {
-                const imageUrl = e.target.result;
-                // this.previewImgs.push(imageUrl);
-                this.previewImg = imageUrl;
-                console.log(this.previewImg);
-            };
-            console.log(this.previewImg);
+            // fileReader.onload = function(e) {
+            //     const imageUrl = e.target.result;
+            //     // this.previewImgs.push(imageUrl);
+            //     this.previewImg = imageUrl;
+            //     console.log(this.previewImg);
+            // };
+            // console.log(this.previewImg);
 
-            fileReader.readAsDataURL(this.fileData[0]);
+            // fileReader.readAsDataURL(this.fileData[0]);
+
+            this.previewImg = URL.createObjectURL(this.fileData[0]);
             this.sendButtonColor = '#0075ff';
         },
         closeChatModal: function () {

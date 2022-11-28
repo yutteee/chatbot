@@ -16,7 +16,9 @@
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
+            <!-- <div class="preview" v-for="preview in previewImgs" :key="preview.lastModified"> -->
+                <img v-bind:src="previewImg" class="preview-img">
+            <!-- </div> -->
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
@@ -53,6 +55,7 @@ export default {
             inputMessage: '',
             messages: [],
             sendButtonColor: '#636363',
+            previewImg: '',
         }
     },
     created() {
@@ -62,6 +65,7 @@ export default {
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages;
+            console.log(latestMessages);
             this.scrollToEnd();
         });
     },
@@ -84,21 +88,27 @@ export default {
             //     });
 
             SocketioService.sendMessage(message, this.fileData);
+            console.log(this.fileData);
             this.inputMessage = '';
             this.fileData = [];
             this.sendButtonColor = '#636363';
         },
         selectFile : function(event) {
-            // const fileReader = new FileReader();
-            // fileReader.onload(function() {
-            //     this.aaa = fileReader.result;
-            // })
             const endIndex = this.fileData.length
-            
             this.fileData[endIndex] = event.target.files[0];
-            this.sendButtonColor = '#0075ff';
 
-            // fileReader.readAsDataURL(this.fileData);
+            const fileReader = new FileReader();
+
+            fileReader.onload = function(e) {
+                const imageUrl = e.target.result;
+                // this.previewImgs.push(imageUrl);
+                this.previewImg = imageUrl;
+                console.log(this.previewImg);
+            };
+            console.log(this.previewImg);
+
+            fileReader.readAsDataURL(this.fileData[0]);
+            this.sendButtonColor = '#0075ff';
         },
         closeChatModal: function () {
             this.$emit('parentClick');
@@ -156,6 +166,11 @@ export default {
     padding-top: 8px;
     margin-left: 8px;
     font-size: 12px;
+}
+
+.preview-img {
+    width: 100px;
+    height: 60px;
 }
 
 .forms {

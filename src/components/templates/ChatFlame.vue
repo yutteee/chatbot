@@ -17,7 +17,8 @@
         </div>
         <div class="messages">
             <div class="preview" v-for="preview in previewImgs" :key="preview">
-                <img v-bind:src="preview" class="preview-img">
+                <img v-if="preview !== null" v-bind:src="preview" class="preview-img">
+                <img v-else src="../../assets/logo.png" class="preview-img">
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -91,14 +92,22 @@ export default {
             console.log(this.fileData);
             this.inputMessage = '';
             this.fileData = [];
+            this.previewImgs = [];
             this.sendButtonColor = '#636363';
         },
         selectFile : function(event) {
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
+
             this.previewImgs = this.fileData.map((file) => {
-                return URL.createObjectURL(file);
+                if(file.type == "image/jpeg") {
+                    return URL.createObjectURL(file);
+                } else {
+                    console.log(file.type)
+                    return null;
+                }
             })
+
             this.sendButtonColor = '#0075ff';
         },
         closeChatModal: function () {
@@ -160,8 +169,8 @@ export default {
 }
 
 .preview-img {
-    width: 100px;
-    height: 60px;
+    max-width: 100px;
+    max-height: 60px;
 }
 
 .forms {

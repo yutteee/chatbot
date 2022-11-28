@@ -16,9 +16,9 @@
             </div>
         </div>
         <div class="messages">
-            <!-- <div class="preview" v-for="preview in previewImgs" :key="preview.lastModified"> -->
-                <img v-bind:src="previewImg" class="preview-img">
-            <!-- </div> -->
+            <div class="preview" v-for="preview in previewImgs" :key="preview">
+                <img v-bind:src="preview" class="preview-img">
+            </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
@@ -55,7 +55,7 @@ export default {
             inputMessage: '',
             messages: [],
             sendButtonColor: '#636363',
-            previewImg: '',
+            previewImgs: [],
         }
     },
     created() {
@@ -96,20 +96,9 @@ export default {
         selectFile : function(event) {
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
-
-            // const fileReader = new FileReader();
-
-            // fileReader.onload = function(e) {
-            //     const imageUrl = e.target.result;
-            //     // this.previewImgs.push(imageUrl);
-            //     this.previewImg = imageUrl;
-            //     console.log(this.previewImg);
-            // };
-            // console.log(this.previewImg);
-
-            // fileReader.readAsDataURL(this.fileData[0]);
-
-            this.previewImg = URL.createObjectURL(this.fileData[0]);
+            this.previewImgs = this.fileData.map((file) => {
+                return URL.createObjectURL(file);
+            })
             this.sendButtonColor = '#0075ff';
         },
         closeChatModal: function () {

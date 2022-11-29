@@ -1,10 +1,10 @@
 <template>
     <div class="message">
-        <div class="text" v-if="message == ''">{{file}}</div>
+        <img v-if="message == ''" class="sendedImg" :src="fileTypeChange"/>
         <div class="text" v-else>
             {{ message }}
         </div>
-        <img src="../../../assets/logo.png">
+        <img class="icon" src="../../../assets/logo.png">
     </div>
 </template>
 
@@ -13,6 +13,12 @@ export default {
     props: {
         file: Object,
         message: String
+    },
+    computed: {
+        fileTypeChange() {
+            const imgblob = new Blob([this.file],{type:"image/jpeg"});
+            return URL.createObjectURL(imgblob)
+        }
     }
 }
 </script>
@@ -20,6 +26,13 @@ export default {
 <style scoped>
 .message {
     position: relative;
+}
+
+.sendedImg {
+    max-width: 280px;
+    box-shadow: 4px 2px 2px rgb(133, 133, 133);
+    margin:32px 40px 5px auto;
+    display: block;
 }
 
 .text {
@@ -36,7 +49,7 @@ export default {
     word-wrap: break-word;
 }
 
-img {
+.icon {
     border-radius: 50%;
     width: 32px;
     height: 32px;

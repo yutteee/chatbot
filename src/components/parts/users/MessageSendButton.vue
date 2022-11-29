@@ -1,14 +1,12 @@
 <template>
     <font-awesome-icon
         icon="fa-regular fa-paper-plane"
-        v-on:click="$emit('handleClick')"
         :style="iconColor"
         class="icon"/>
 </template>
 
 <script>
 export default {
-    emits:['handleClick'],
     props: {
         color: String
     },

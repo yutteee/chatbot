@@ -17,9 +17,7 @@
         </div>
         <div class="messages">
             <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
-                <img v-if="preview !== null" v-bind:src="preview" class="preview-img">
-                <img v-else src="../../assets/logo.png" class="preview-img">
-                <button @click="deleteFile(index)">a</button>
+                <ImagePreview :previewUrl="preview" @deletePreview="deleteFile(index)"></ImagePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -38,6 +36,7 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
+import ImagePreview from '../parts/users/ImagePreview.vue';
 // import axios from 'axios'
 
 
@@ -48,15 +47,16 @@ export default {
         FileUpload,
         MessageSendButton,
         MyMessage,
-        YourMessage
+        YourMessage,
+        ImagePreview
     },
     data () {
         return {
             roomID: 'room',
-            fileData: [],
             inputMessage: '',
-            messages: [],
             sendButtonColor: '#636363',
+            messages: [],
+            fileData: [],
             previewImgs: [],
         }
     },
@@ -75,7 +75,7 @@ export default {
         sendMessage : function() {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
-            if (spaceDeletedMessage == '' && this.fileData.length == 0) return console.log('error');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
 
             // const formData = new FormData();
             // formData.append('file', this.fileData);
@@ -120,8 +120,10 @@ export default {
             })
         },
         deleteFile: function (index) {
-            delete this.fileData[index];
-            delete this.previewImgs[index];
+            this.fileData.splice(index, 1)
+            console.log(this.fileData.length);
+            this.previewImgs.splice(index, 1);
+            console.log(this.previewImgs.length);
         } 
     },
     watch: {
@@ -171,11 +173,6 @@ export default {
     padding-top: 8px;
     margin-left: 8px;
     font-size: 12px;
-}
-
-.preview-img {
-    max-width: 100px;
-    max-height: 60px;
 }
 
 .forms {

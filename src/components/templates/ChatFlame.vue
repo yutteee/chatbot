@@ -121,9 +121,7 @@ export default {
         },
         deleteFile: function (index) {
             this.fileData.splice(index, 1)
-            console.log(this.fileData.length);
             this.previewImgs.splice(index, 1);
-            console.log(this.previewImgs.length);
         } 
     },
     watch: {

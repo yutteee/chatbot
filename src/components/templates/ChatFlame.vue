@@ -22,7 +22,7 @@
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-                <MessageSendButton v-on:click="sendMessage" :color="sendButtonColor"></MessageSendButton>
+                <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
             </div>
         </div>
     </div>
@@ -54,7 +54,6 @@ export default {
         return {
             roomID: 'room',
             inputMessage: '',
-            sendButtonColor: '#636363',
             messages: [],
             fileData: [],
             previewImgs: [],
@@ -94,7 +93,6 @@ export default {
             this.inputMessage = '';
             this.fileData = [];
             this.previewImgs = [];
-            this.sendButtonColor = '#636363';
         },
         selectFile : function(event) {
             const endIndex = this.fileData.length
@@ -108,8 +106,6 @@ export default {
                     return null;
                 }
             });
-
-            this.sendButtonColor = '#0075ff';
         },
         closeChatModal: function () {
             this.$emit('parentClick');
@@ -124,15 +120,15 @@ export default {
             this.previewImgs.splice(index, 1);
         } 
     },
-    watch: {
-        inputMessage : function() {
+    computed: {
+        isAbleToSend() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-                this.sendButtonColor = '#636363';
+                return '#636363';
             } else {
-                this.sendButtonColor = '#0075ff';
+                return '#0075ff';
             }
-        },
+        }
     },
 }
 

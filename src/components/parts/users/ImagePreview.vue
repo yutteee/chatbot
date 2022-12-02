@@ -2,7 +2,9 @@
     <div class="preview">
         <img v-if="previewUrl !== null" v-bind:src="previewUrl" class="preview-img">
         <img v-else src="../../../assets/logo.png" class="preview-img">
-        <button class="delete-button" @click="$emit('deletePreview')">x</button>
+        <button class="delete-button" @click="$emit('deletePreview')">
+            <font-awesome-icon icon="fa-solid fa-xmark"></font-awesome-icon>
+        </button>
     </div>
 </template>
 

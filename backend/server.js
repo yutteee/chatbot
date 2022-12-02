@@ -60,6 +60,10 @@ io.on('connection', (socket) => {
       socket.join(rooms[isRoomExist].id);
       console.log(users);
     };
+    // 過去のメッセージを取得する
+    const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
+    const chatRoom = rooms[roomIndex];
+    io.in(chatRoom.id).emit('get message', chatRoom);
 
     socket.on('send message', function(message, file) {
       const user = users.find((u) => u.id == socket.id);

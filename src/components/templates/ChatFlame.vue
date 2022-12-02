@@ -140,8 +140,6 @@ export default {
     height: 500px;
     border-radius: 10px;
     box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
-    position: relative;
-    position: fixed;
     bottom: 64px;
     right: 64px;
 }
@@ -155,8 +153,8 @@ export default {
     display: flex;
     align-items: center;
     height: auto;
-    position: absolute;
     background-color: #fff;
+    position: absolute;
     bottom: 0px;
     width: 400px;
     border-radius: 0 0 10px 10px;

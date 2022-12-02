@@ -16,8 +16,11 @@ export default {
     },
     computed: {
         fileTypeChange() {
+            const fileType = new Blob([this.file]).type
+            console.log(fileType); // always receive "" even if origin file type was image/jpeg
             const imgblob = new Blob([this.file],{type:"image/jpeg"});
-            return URL.createObjectURL(imgblob)
+            console.log(imgblob);
+            return URL.createObjectURL(imgblob);
         }
     }
 }

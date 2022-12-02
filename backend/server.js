@@ -22,6 +22,7 @@ app.post('/user', function(req, res){
   res.json(postUserData(req, res));
 })
 
+// -------------------------------------------
 
 const io = require("socket.io")(http, {
 	cors: {
@@ -59,18 +60,34 @@ io.on('connection', (socket) => {
       socket.join(rooms[isRoomExist].id);
       console.log(users);
     };
+    // 過去のメッセージを取得する
+    const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
+    const chatRoom = rooms[roomIndex];
+    io.in(chatRoom.id).emit('get message', chatRoom);
 
-    socket.on('send message', function(msg) {
+    socket.on('send message', function(message, file) {
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 
-      rooms[roomIndex].messages.push({
-        name: user.name,
-        text: msg
-      });
-      console.log(room);
+      // send file
+      for(let i = 0; i < file.length; i++) {
+        rooms[roomIndex].messages.push({
+          name: user.name,
+          text: '',
+          file: file[i]
+        });
+      };
+      // send message
+      if(message != ''){
+        rooms[roomIndex].messages.push({
+          name: user.name,
+          text: message,
+          file: {},
+        });
+      };
 
+      console.log(room);
       io.in(room.id).emit('get message', room);
     })
   });

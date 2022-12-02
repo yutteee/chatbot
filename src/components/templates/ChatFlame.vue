@@ -6,19 +6,23 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
+                    :file="message.file"
                 ></YourMessage>
                 <MyMessage 
                     v-else
                     :message="message.text"
+                    :file="message.file"
                 ></MyMessage>
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
+            <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
+                <ImagePreview :previewUrl="preview" @deletePreview="deleteFile(index)"></ImagePreview>
+            </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-                <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
+                <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
             </div>
         </div>
     </div>
@@ -32,6 +36,8 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
+import ImagePreview from '../parts/users/ImagePreview.vue';
+// import axios from 'axios'
 
 
 export default {
@@ -41,15 +47,16 @@ export default {
         FileUpload,
         MessageSendButton,
         MyMessage,
-        YourMessage
+        YourMessage,
+        ImagePreview
     },
     data () {
         return {
             roomID: 'room',
-            fileData: [],
             inputMessage: '',
             messages: [],
-            color: '#636363',
+            fileData: [],
+            previewImgs: [],
         }
     },
     created() {
@@ -59,6 +66,7 @@ export default {
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages;
+            console.log(latestMessages);
             this.scrollToEnd();
         });
     },
@@ -66,21 +74,38 @@ export default {
         sendMessage : function() {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
-            if (spaceDeletedMessage == '') return console.log('error');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
 
-            SocketioService.sendMessage(message);
+            // const formData = new FormData();
+            // formData.append('file', this.fileData);
+            // axios.post('/file', formData)
+            //     .then(function(response){
+            //         console.log('ok!!')
+            //         console.log(response);
+            //     })
+            //     .catch(function(err){
+            //         console.log("error!!")
+            //         console.log(err);
+            //     });
+
+            SocketioService.sendMessage(message, this.fileData);
+            console.log(this.fileData);
             this.inputMessage = '';
+            this.fileData = [];
+            this.previewImgs = [];
         },
         selectFile : function(event) {
-            // const fileReader = new FileReader();
-            // fileReader.onload(function() {
-            //     this.aaa = fileReader.result;
-            // })
             const endIndex = this.fileData.length
-            
             this.fileData[endIndex] = event.target.files[0];
 
-            // fileReader.readAsDataURL(this.fileData);
+            this.previewImgs = this.fileData.map((file) => {
+                if(file.type == "image/jpeg") {
+                    return URL.createObjectURL(file);
+                } else {
+                    console.log(file.type);
+                    return null;
+                }
+            });
         },
         closeChatModal: function () {
             this.$emit('parentClick');
@@ -89,17 +114,21 @@ export default {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
             })
-        }
+        },
+        deleteFile: function (index) {
+            this.fileData.splice(index, 1)
+            this.previewImgs.splice(index, 1);
+        } 
     },
-    watch: {
-        inputMessage : function() {
+    computed: {
+        isAbleToSend() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-                this.color = '#636363';
+                return '#636363';
             } else {
-                this.color = '#0075ff';
+                return '#0075ff';
             }
-        },
+        }
     },
 }
 

@@ -39,6 +39,10 @@ export default {
             if (determineFileType('image/')) {
                 const imgblob = new Blob([this.file],{type:this.fileType});
                 return URL.createObjectURL(imgblob);
+            } else if (determineFileType('text/')){
+                return require("../../../assets/textFile.svg");
+            } else if (determineFileType('application/pdf')){
+                return require("../../../assets/PDFFile.svg");
             } else {
                 return require("../../../assets/logo.png");
             }

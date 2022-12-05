@@ -1,6 +1,7 @@
 <template>
     <div class="message">
-        <img v-if="message == ''" class="sendedImg" :src="fileTypeChange"/>
+        <!-- ファイルの名前も表示するようにする -->
+        <img v-if="message == ''" class="sendedImg" :src="fileTypeChange" @click="fileClick"/>
         <div class="text" v-else>
             {{ message }}
         </div>
@@ -15,6 +16,23 @@ export default {
         message: String,
         fileType: String
     },
+    methods: {
+        fileClick() {
+            const determineFileType = (typeName) =>  this.fileType.startsWith(typeName);
+            if (determineFileType('image/')) {
+                // 写真を拡大して表示するようにする
+                console.log("image");
+            } else if (determineFileType('text/')) {
+                const textFile = new Blob([this.file],{type:this.fileType});
+                const textFileUrl = URL.createObjectURL(textFile);
+                window.open(textFileUrl);
+            } else if (determineFileType('application/')) {
+                const textFile = new Blob([this.file],{type:this.fileType});
+                const textFileUrl = URL.createObjectURL(textFile);
+                window.open(textFileUrl);
+            }
+        }
+    },
     computed: {
         fileTypeChange() {
             const determineFileType = (typeName) =>  this.fileType.startsWith(typeName);
@@ -24,7 +42,7 @@ export default {
             } else {
                 return require("../../../assets/logo.png");
             }
-        }
+        },
     }
 }
 </script>

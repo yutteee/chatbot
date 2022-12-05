@@ -17,12 +17,8 @@ export default {
     },
     computed: {
         fileTypeChange() {
-            const isImage = (
-                this.fileType === 'image/jpeg'
-                || this.fileType === 'image/png'
-                || this.fileType === 'image/svg+xml'
-            )
-            if (isImage) {
+            const determineFileType = (typeName) =>  this.fileType.startsWith(typeName);
+            if (determineFileType('image/')) {
                 const imgblob = new Blob([this.file],{type:this.fileType});
                 return URL.createObjectURL(imgblob);
             } else {

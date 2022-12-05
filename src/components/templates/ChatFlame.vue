@@ -12,6 +12,7 @@
                     v-else
                     :message="message.text"
                     :file="message.file"
+                    :fileType="message.fileType"
                 ></MyMessage>
             </div>
         </div>
@@ -87,8 +88,9 @@ export default {
             //         console.log("error!!")
             //         console.log(err);
             //     });
+            const fileTypeArray = this.fileData.map((file) => file["type"]);
 
-            SocketioService.sendMessage(message, this.fileData);
+            SocketioService.sendMessage(message, this.fileData, fileTypeArray);
             console.log(this.fileData);
             this.inputMessage = '';
             this.fileData = [];

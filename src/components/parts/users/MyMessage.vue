@@ -12,14 +12,12 @@
 export default {
     props: {
         file: Object,
-        message: String
+        message: String,
+        fileType: String
     },
     computed: {
         fileTypeChange() {
-            const fileType = new Blob([this.file]).type
-            console.log(fileType); // always receive "" even if origin file type was image/jpeg
-            const imgblob = new Blob([this.file],{type:"image/jpeg"});
-            console.log(imgblob);
+            const imgblob = new Blob([this.file],{type:this.fileType});
             return URL.createObjectURL(imgblob);
         }
     }

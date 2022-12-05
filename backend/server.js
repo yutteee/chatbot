@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
     const chatRoom = rooms[roomIndex];
     io.in(chatRoom.id).emit('get message', chatRoom);
 
-    socket.on('send message', function(message, file) {
+    socket.on('send message', function(message, file, fileTypes) {
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
@@ -75,7 +75,8 @@ io.on('connection', (socket) => {
         rooms[roomIndex].messages.push({
           name: user.name,
           text: '',
-          file: file[i]
+          file: file[i],
+          fileType: fileTypes[i]
         });
       };
       // send message
@@ -84,6 +85,7 @@ io.on('connection', (socket) => {
           name: user.name,
           text: message,
           file: {},
+          fileType: ''
         });
       };
 

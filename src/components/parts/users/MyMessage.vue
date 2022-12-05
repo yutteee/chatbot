@@ -17,8 +17,17 @@ export default {
     },
     computed: {
         fileTypeChange() {
-            const imgblob = new Blob([this.file],{type:this.fileType});
-            return URL.createObjectURL(imgblob);
+            const isImage = (
+                this.fileType === 'image/jpeg'
+                || this.fileType === 'image/png'
+                || this.fileType === 'image/svg+xml'
+            )
+            if (isImage) {
+                const imgblob = new Blob([this.file],{type:this.fileType});
+                return URL.createObjectURL(imgblob);
+            } else {
+                return require("../../../assets/logo.png");
+            }
         }
     }
 }

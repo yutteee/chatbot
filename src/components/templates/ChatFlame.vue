@@ -101,18 +101,25 @@ export default {
             this.fileData[endIndex] = event.target.files[0];
 
             this.previewImgs = this.fileData.map((file) => {
-                if(file.type == "image/jpeg") {
-                    return URL.createObjectURL(file);
-                } else {
-                    console.log(file.type);
-                    return null;
-                }
+                return this.createImage(file.type, file)
             });
+        },
+        createImage : function(fileType, fileObject) {
+            const determineFileType = (name) =>  fileType.startsWith(name);
+            if (determineFileType('image/')) {
+                return URL.createObjectURL(fileObject);
+            } else if (determineFileType('text/')){
+                return require("../../assets/textFile.svg");
+            } else if (determineFileType('application/pdf')){
+                return require("../../assets/PDFFile.svg");
+            } else {
+                return require("../../assets/logo.png");
+            }
         },
         closeChatModal: function () {
             this.$emit('parentClick');
         },
-        scrollToEnd() {
+        scrollToEnd: function () {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
             })
@@ -130,7 +137,7 @@ export default {
             } else {
                 return '#0075ff';
             }
-        }
+        },
     },
 }
 

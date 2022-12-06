@@ -12,7 +12,7 @@
                 <MyMessage 
                     v-else
                     :message="message.text"
-                    :file="message.file"
+                    :fileURL="message.file"
                     :fileType="message.fileType"
                 ></MyMessage>
             </div>

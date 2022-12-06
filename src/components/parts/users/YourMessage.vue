@@ -71,7 +71,7 @@ export default {
 .sendedImg {
     max-width: 280px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
-    margin:32px 40px 5px auto;
+    /* margin:32px 40px 5px auto; */
     display: block;
 }
 

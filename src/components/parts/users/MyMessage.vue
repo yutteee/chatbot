@@ -1,53 +1,51 @@
 <template>
     <div class="message">
-        <!-- ファイルの名前も表示するようにする -->
-        <img v-if="message == ''" class="sendedImg" :src="fileTypeChange" @click="fileClick"/>
-        <div class="text" v-else>
-            {{ message }}
+        <div class="file" v-if="message == ''">
+            <img 
+                v-if="determineFileType(fileType, 'image/')"
+                class="sendedImg"
+                :src="fileURL"
+            />
+            <div 
+                v-else-if="determineFileType(fileType, 'text/')"
+                @click="openFile(fileURL)"
+                class="file-text"
+            ><font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
+            plain Text
+            </div>
+            <div 
+                v-else-if="determineFileType(fileType, 'application/pdf')"
+                @click="openFile(fileURL)"
+                class="file-text"
+            ><font-awesome-icon icon="fa-regular fa-file-pdf" class="icon"/>
+            PDF file
+            </div>
+            <div 
+                v-else
+                @click="openFile(fileURL)"
+            >other
+            </div>
         </div>
-        <img class="icon" src="../../../assets/logo.png">
+        <div class="text" v-else>{{message}}</div>
+        <img class="profile" src="../../../assets/logo.png">
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        file: Object,
+        fileURL: String,
         message: String,
         fileType: String
     },
     methods: {
-        fileClick() {
-            const determineFileType = (typeName) =>  this.fileType.startsWith(typeName);
-            if (determineFileType('image/')) {
-                // 写真を拡大して表示するようにする
-                console.log("image");
-            } else if (determineFileType('text/')) {
-                const textFile = new Blob([this.file],{type:this.fileType});
-                const textFileUrl = URL.createObjectURL(textFile);
-                window.open(textFileUrl);
-            } else if (determineFileType('application/')) {
-                const textFile = new Blob([this.file],{type:this.fileType});
-                const textFileUrl = URL.createObjectURL(textFile);
-                window.open(textFileUrl);
-            }
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
+        openFile: function(url) {
+            window.open(url)
         }
     },
-    computed: {
-        fileTypeChange() {
-            const determineFileType = (typeName) =>  this.fileType.startsWith(typeName);
-            if (determineFileType('image/')) {
-                const imgblob = new Blob([this.file],{type:this.fileType});
-                return URL.createObjectURL(imgblob);
-            } else if (determineFileType('text/')){
-                return require("../../../assets/textFile.svg");
-            } else if (determineFileType('application/pdf')){
-                return require("../../../assets/PDFFile.svg");
-            } else {
-                return require("../../../assets/logo.png");
-            }
-        },
-    }
 }
 </script>
 
@@ -59,8 +57,33 @@ export default {
 .sendedImg {
     max-width: 280px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
-    margin:32px 40px 5px auto;
     display: block;
+}
+
+.file {
+    width: fit-content;
+    max-width: 280px;
+    margin:32px 40px 5px auto;
+}
+
+.file-text {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1.5px solid #288BFF;
+    color: #288BFF;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding: 2px 10px;
+    box-shadow: 4px 2px 2px rgb(133, 133, 133);
+}
+
+.icon {
+    color: #525F7F;
+    width: 26px;
+    height: 26px;
+    padding: 5px;
 }
 
 .text {
@@ -69,15 +92,15 @@ export default {
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    width: fit-content;
-    max-width: 280px;
     padding: 2px 10px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
+    width: fit-content;
+    max-width: 280px;
     margin:32px 40px 5px auto;
     word-wrap: break-word;
 }
 
-.icon {
+.profile {
     border-radius: 50%;
     width: 32px;
     height: 32px;

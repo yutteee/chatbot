@@ -1,6 +1,8 @@
 <template>
     <div class="message">
-        <div class="file" v-if="message == ''">{{file}}</div>
+        <div class="file" v-if="message == ''">
+            <img class="sendedImg" :src="fileUrl" @click="fileClick"/>
+        </div>
         <div class="text" v-else>{{message}}</div>
         <img src="../../../assets/logo.png">
     </div>
@@ -10,7 +12,7 @@
 
 export default {
     props: {
-        file: Object,
+        fileUrl: String,
         message: String
     }
 }

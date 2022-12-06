@@ -6,6 +6,24 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(cors());
 
+let userData = {
+  room: "",
+  name: "",
+  id: 0,
+  message: "",
+};
+
+const postUserData = function (req, res) {
+  userData.name = req.body.name;
+  userData.id = req.body.id;
+};
+
+app.post('/user', function(req, res){
+  res.json(postUserData(req, res));
+})
+
+// -------------------------------------------
+
 const io = require("socket.io")(http, {
 	cors: {
 		origins: ["http://localhost:8080"],
@@ -42,7 +60,7 @@ io.on('connection', (socket) => {
       socket.join(rooms[isRoomExist].id);
       console.log(users);
     };
-    // get message history
+    // get chat history
     const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
     const chatRoom = rooms[roomIndex];
     io.in(chatRoom.id).emit('get message', chatRoom);

@@ -6,7 +6,7 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
-                    :file="message.file"
+                    :fileUrl="message.file"
                 ></YourMessage>
                 <MyMessage 
                     v-else
@@ -66,8 +66,17 @@ export default {
     },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
-            this.messages = latestMessages;
-            console.log(latestMessages);
+            this.messages = latestMessages.map((message) => {
+                if (message.text !== "") {
+                    message.file = "";
+                    return message;
+                }
+                const fileBlob = new Blob([message.file], {type: message.fileType});
+                const fileURL = URL.createObjectURL(fileBlob);
+                message.file = fileURL;
+                return message;
+            })
+            console.log(this.messages);
             this.scrollToEnd();
         });
     },

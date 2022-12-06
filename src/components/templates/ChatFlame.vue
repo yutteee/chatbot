@@ -6,7 +6,8 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
-                    :fileUrl="message.file"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
                 ></YourMessage>
                 <MyMessage 
                     v-else
@@ -38,7 +39,6 @@ import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 import ImagePreview from '../parts/users/ImagePreview.vue';
-// import axios from 'axios'
 
 
 export default {
@@ -101,13 +101,15 @@ export default {
                 return this.createImage(file.type, file)
             });
         },
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
         createImage : function(fileType, fileObject) {
-            const determineFileType = (name) =>  fileType.startsWith(name);
-            if (determineFileType('image/')) {
+            if (this.determineFileType(fileType, 'image/')) {
                 return URL.createObjectURL(fileObject);
-            } else if (determineFileType('text/')){
+            } else if (this.determineFileType(fileType, 'text/')){
                 return require("../../assets/textFile.svg");
-            } else if (determineFileType('application/pdf')){
+            } else if (this.determineFileType(fileType, 'application/pdf')){
                 return require("../../assets/PDFFile.svg");
             } else {
                 return require("../../assets/logo.png");

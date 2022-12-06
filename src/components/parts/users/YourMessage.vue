@@ -1,7 +1,29 @@
 <template>
     <div class="message">
         <div class="file" v-if="message == ''">
-            <img class="sendedImg" :src="fileUrl" @click="fileClick"/>
+            <img 
+                v-if="determineFileType(fileType, 'image/')"
+                class="sendedImg"
+                :src="fileURL"
+            />
+            <div 
+                v-else-if="determineFileType(fileType, 'text/')"
+                class="text"
+                @click="openFile(fileURL)"
+            >text file
+            </div>
+            <div 
+                v-else-if="determineFileType(fileType, 'application/pdf')"
+                class="text"
+                @click="openFile(fileURL)"
+            >PDF file
+            </div>
+            <div 
+                v-else
+                class="text"
+                @click="openFile(fileURL)"
+            >other
+            </div>
         </div>
         <div class="text" v-else>{{message}}</div>
         <img src="../../../assets/logo.png">
@@ -12,8 +34,17 @@
 
 export default {
     props: {
-        fileUrl: String,
-        message: String
+        fileURL: String,
+        message: String,
+        fileType: String,
+    },
+    methods: {
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
+        openFile: function(url) {
+            window.open(url)
+        }
     }
 }
 </script>

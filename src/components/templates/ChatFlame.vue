@@ -76,18 +76,6 @@ export default {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
-
-            // const formData = new FormData();
-            // formData.append('file', this.fileData);
-            // axios.post('/file', formData)
-            //     .then(function(response){
-            //         console.log('ok!!')
-            //         console.log(response);
-            //     })
-            //     .catch(function(err){
-            //         console.log("error!!")
-            //         console.log(err);
-            //     });
             const fileTypeArray = this.fileData.map((file) => file["type"]);
 
             SocketioService.sendMessage(message, this.fileData, fileTypeArray);

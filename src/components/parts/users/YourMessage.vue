@@ -1,29 +1,37 @@
 <template>
     <div class="message">
         <div class="file" v-if="message == ''">
-            <img 
-                v-if="determineFileType(fileType, 'image/')"
-                class="sendedImg"
-                :src="fileURL"
-            />
-            <div 
-                v-else-if="determineFileType(fileType, 'text/')"
-                @click="openFile(fileURL)"
-                class="file-text"
-            ><font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
-            plain Text
+            <div v-if="determineFileType(fileType, 'image/')">
+                <span class="file-name">{{fileName}}</span>
+                <img
+                    class="sendedImg"
+                    :src="fileURL"
+                />
             </div>
-            <div 
-                v-else-if="determineFileType(fileType, 'application/pdf')"
-                @click="openFile(fileURL)"
-                class="file-text"
-            ><font-awesome-icon icon="fa-regular fa-file-pdf" class="icon"/>
-            PDF file
+            <div v-else-if="determineFileType(fileType, 'text/')">
+                <span class="file-name">{{fileType}}</span>
+                <div
+                    @click="openFile(fileURL)"
+                    class="file-text"
+                ><font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
+                {{fileName}}
+                </div>
             </div>
-            <div 
-                v-else
-                @click="openFile(fileURL)"
-            >other
+            <div v-else-if="determineFileType(fileType, 'application/pdf')">
+                <span class="file-text">{{fileType}}</span>
+                <div
+                    @click="openFile(fileURL)"
+                    class="file-text"
+                ><font-awesome-icon icon="fa-regular fa-file-pdf" class="icon"/>
+                {{fileName}}
+                </div>
+            </div>
+            <div v-else>
+                <span class="file-name">{{fileType}}</span>
+                <div 
+                    @click="openFile(fileURL)"
+                >{{fileName}}
+                </div>
             </div>
         </div>
         <div class="text" v-else>{{message}}</div>
@@ -38,6 +46,7 @@ export default {
         fileURL: String,
         message: String,
         fileType: String,
+        fileName: String,
     },
     methods: {
         determineFileType: function(fileType, name) {
@@ -79,6 +88,12 @@ export default {
     width: 26px;
     height: 26px;
     padding: 5px;
+}
+
+.file-name {
+    color: #636363;
+    font-size: 12px;
+    padding-left: 5px;
 }
 
 .file-text {

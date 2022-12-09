@@ -8,12 +8,14 @@
                     :message="message.text"
                     :fileURL="message.file"
                     :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></YourMessage>
                 <MyMessage 
                     v-else
                     :message="message.text"
                     :fileURL="message.file"
                     :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></MyMessage>
             </div>
         </div>

@@ -1,11 +1,11 @@
 <template>
     <div class="preview">
-        <img v-if="previewUrl !== null" v-bind:src="previewUrl" class="preview-img">
-        <img v-else src="../../../assets/logo.png" class="preview-img">
+        <img v-bind:src="previewUrl" class="preview-img">
         <button class="delete-button" @click="$emit('deletePreview')">
             <font-awesome-icon icon="fa-solid fa-xmark"></font-awesome-icon>
         </button>
     </div>
+    <div class="preview-name">{{previewName}}</div>
 </template>
 
 <script>
@@ -13,6 +13,7 @@ export default {
     emits:['deletePreview'],
     props: {
         previewUrl: String,
+        previewName: String
     }
 }
 
@@ -21,6 +22,17 @@ export default {
 <style scoped>
 .preview {
     position: relative;
+    width: auto;
+    display: inline-block;
+}
+
+.preview-name {
+    font-size: 10px;
+    color: #636363;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .preview-img {
     max-width: 100px;
@@ -29,7 +41,7 @@ export default {
 
 .delete-button {
     position: absolute;
-    top: 0;
+    top: -6px;
     right: -8px;
     background: #000;
     color: #fff;

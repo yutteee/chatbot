@@ -13,28 +13,15 @@ class SocketioService {
     this.socket.emit("create room", user_name, roomID);
   }
 
-  sendMessage(message, file) {
-    this.socket.emit('send message', message, file);
+  sendMessage(message, file, fileTypes, fileNames) {
+    this.socket.emit('send message', message, file, fileTypes, fileNames);
+    console.log("ファイルだよ");
+    console.log(file);
   }
 
   getMessage(callback) {
     this.socket.on('get message',function(room){
-      // const convertedMessages = room.messages.map((message) => {
-      //   if(message.file !== []) {
-      //     const buffer = new Uint8Array(message.file);
-      //     console.log(buffer);
-      //     const fileString= String.fromCharCode.apply(null, buffer);
-      //     console.log(fileString);
-      //     const obj = JSON.parse(fileString);
-      //     message.file = obj;
-      //     return message;
-      //   } else {
-      //     return message;
-      //   }
-      // })
-      // console.log(convertedMessages);
       return callback(null, room.messages);
-      // return callback(null, convertedMessages);
     });
   }
   

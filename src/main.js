@@ -7,8 +7,10 @@ import { faCommentDots } from '@fortawesome/free-regular-svg-icons'
 import { faLink } from '@fortawesome/free-solid-svg-icons'
 import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faFileLines } from '@fortawesome/free-regular-svg-icons'
+import { faFilePdf } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-library.add(faCommentDots, faPaperPlane, faLink, faXmark)
+library.add(faCommentDots, faPaperPlane, faLink, faXmark, faFileLines, faFilePdf)
 
 createApp(App).use(store).use(router).component("font-awesome-icon", FontAwesomeIcon).mount('#app')

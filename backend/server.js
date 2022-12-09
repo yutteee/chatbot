@@ -60,12 +60,13 @@ io.on('connection', (socket) => {
       socket.join(rooms[isRoomExist].id);
       console.log(users);
     };
-    // 過去のメッセージを取得する
+    // get chat history
     const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
     const chatRoom = rooms[roomIndex];
     io.in(chatRoom.id).emit('get message', chatRoom);
 
-    socket.on('send message', function(message, file) {
+    socket.on('send message', function(message, file, fileTypes, fileNames) {
+      console.log("メッセージを受け取ったよ");
       const user = users.find((u) => u.id == socket.id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
@@ -75,8 +76,11 @@ io.on('connection', (socket) => {
         rooms[roomIndex].messages.push({
           name: user.name,
           text: '',
-          file: file[i]
+          file: file[i],
+          fileType: fileTypes[i],
+          fileName: fileNames[i]
         });
+        console.log(file);
       };
       // send message
       if(message != ''){
@@ -84,6 +88,8 @@ io.on('connection', (socket) => {
           name: user.name,
           text: message,
           file: {},
+          fileType: '',
+          fileName: ''
         });
       };
 

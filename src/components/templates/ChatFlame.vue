@@ -6,18 +6,22 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
-                    :file="message.file"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></YourMessage>
                 <MyMessage 
                     v-else
                     :message="message.text"
-                    :file="message.file"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></MyMessage>
             </div>
         </div>
         <div class="messages">
             <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
-                <ImagePreview :previewUrl="preview" @deletePreview="deleteFile(index)"></ImagePreview>
+                <ImagePreview :previewUrl="preview.image" :previewName="preview.name" @deletePreview="deleteFile(index)"></ImagePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -37,7 +41,6 @@ import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 import ImagePreview from '../parts/users/ImagePreview.vue';
-// import axios from 'axios'
 
 
 export default {
@@ -65,8 +68,17 @@ export default {
     },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
-            this.messages = latestMessages;
-            console.log(latestMessages);
+            this.messages = latestMessages.map((message) => {
+                if (message.text !== "") {
+                    message.file = "";
+                    return message;
+                }
+                const fileBlob = new Blob([message.file], {type: message.fileType});
+                const fileURL = URL.createObjectURL(fileBlob);
+                message.file = fileURL;
+                return message;
+            })
+            console.log(this.messages);
             this.scrollToEnd();
         });
     },
@@ -75,20 +87,10 @@ export default {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
+            const fileTypeArray = this.fileData.map((file) => file["type"]);
+            const fileNameArray = this.fileData.map((file) => file["name"]);
 
-            // const formData = new FormData();
-            // formData.append('file', this.fileData);
-            // axios.post('/file', formData)
-            //     .then(function(response){
-            //         console.log('ok!!')
-            //         console.log(response);
-            //     })
-            //     .catch(function(err){
-            //         console.log("error!!")
-            //         console.log(err);
-            //     });
-
-            SocketioService.sendMessage(message, this.fileData);
+            SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
             console.log(this.fileData);
             this.inputMessage = '';
             this.fileData = [];
@@ -99,18 +101,30 @@ export default {
             this.fileData[endIndex] = event.target.files[0];
 
             this.previewImgs = this.fileData.map((file) => {
-                if(file.type == "image/jpeg") {
-                    return URL.createObjectURL(file);
-                } else {
-                    console.log(file.type);
-                    return null;
-                }
+                const image = this.createImage(file.type, file);
+                const name = file.name;
+                const previewImg = { image, name };
+                return previewImg;
             });
+        },
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
+        createImage : function(fileType, fileObject) {
+            if (this.determineFileType(fileType, 'image/')) {
+                return URL.createObjectURL(fileObject);
+            } else if (this.determineFileType(fileType, 'text/')){
+                return require("../../assets/textFile.svg");
+            } else if (this.determineFileType(fileType, 'application/pdf')){
+                return require("../../assets/PDFFile.svg");
+            } else {
+                return require("../../assets/logo.png");
+            }
         },
         closeChatModal: function () {
             this.$emit('parentClick');
         },
-        scrollToEnd() {
+        scrollToEnd: function () {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
             })
@@ -128,7 +142,7 @@ export default {
             } else {
                 return '#0075ff';
             }
-        }
+        },
     },
 }
 

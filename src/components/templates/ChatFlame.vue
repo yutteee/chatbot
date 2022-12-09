@@ -21,7 +21,7 @@
         </div>
         <div class="messages">
             <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
-                <ImagePreview :previewUrl="preview" @deletePreview="deleteFile(index)"></ImagePreview>
+                <ImagePreview :previewUrl="preview.image" :previewName="preview.name" @deletePreview="deleteFile(index)"></ImagePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -101,7 +101,10 @@ export default {
             this.fileData[endIndex] = event.target.files[0];
 
             this.previewImgs = this.fileData.map((file) => {
-                return this.createImage(file.type, file)
+                const image = this.createImage(file.type, file);
+                const name = file.name;
+                const previewImg = { image, name };
+                return previewImg;
             });
         },
         determineFileType: function(fileType, name) {

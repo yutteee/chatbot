@@ -27,8 +27,9 @@
                 </div>
             </div>
             <div v-else>
-                <span class="file-text">{{fileType}}</span>
+                <span class="file-name">{{fileType}}</span>
                 <div 
+                    class="file-text"
                     @click="openFile(fileURL)"
                 >{{fileName}}
                 </div>
@@ -78,7 +79,8 @@ export default {
 .file-name {
     color: #636363;
     font-size: 12px;
-    padding-left: 5px;
+    position: absolute;
+    top: -18px;
 }
 
 .file-text {

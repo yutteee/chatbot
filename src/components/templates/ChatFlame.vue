@@ -86,8 +86,9 @@ export default {
             const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
             const fileTypeArray = this.fileData.map((file) => file["type"]);
+            const fileNameArray = this.fileData.map((file) => file["name"]);
 
-            SocketioService.sendMessage(message, this.fileData, fileTypeArray);
+            SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
             console.log(this.fileData);
             this.inputMessage = '';
             this.fileData = [];

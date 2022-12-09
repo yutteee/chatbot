@@ -13,8 +13,10 @@ class SocketioService {
     this.socket.emit("create room", user_name, roomID);
   }
 
-  sendMessage(message, file, fileTypes) {
-    this.socket.emit('send message', message, file, fileTypes);
+  sendMessage(message, file, fileTypes, fileNames) {
+    this.socket.emit('send message', message, file, fileTypes, fileNames);
+    console.log("ファイルだよ");
+    console.log(file);
   }
 
   getMessage(callback) {

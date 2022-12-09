@@ -6,19 +6,27 @@
                 <YourMessage
                     v-if="message.name !== $store.state.user_name"
                     :message="message.text"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></YourMessage>
                 <MyMessage 
                     v-else
                     :message="message.text"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
                 ></MyMessage>
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="file in fileData" :key="file.name">{{file.name}}</div>
+            <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
+                <ImagePreview :previewUrl="preview.image" :previewName="preview.name" @deletePreview="deleteFile(index)"></ImagePreview>
+            </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
                 <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-                <MessageSendButton v-on:click="sendMessage" :color="color"></MessageSendButton>
+                <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
             </div>
         </div>
     </div>
@@ -32,6 +40,7 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
+import ImagePreview from '../parts/users/ImagePreview.vue';
 
 
 export default {
@@ -41,15 +50,16 @@ export default {
         FileUpload,
         MessageSendButton,
         MyMessage,
-        YourMessage
+        YourMessage,
+        ImagePreview
     },
     data () {
         return {
             roomID: 'room',
-            fileData: [],
             inputMessage: '',
             messages: [],
-            color: '#636363',
+            fileData: [],
+            previewImgs: [],
         }
     },
     created() {
@@ -58,7 +68,17 @@ export default {
     },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
-            this.messages = latestMessages;
+            this.messages = latestMessages.map((message) => {
+                if (message.text !== "") {
+                    message.file = "";
+                    return message;
+                }
+                const fileBlob = new Blob([message.file], {type: message.fileType});
+                const fileURL = URL.createObjectURL(fileBlob);
+                message.file = fileURL;
+                return message;
+            })
+            console.log(this.messages);
             this.scrollToEnd();
         });
     },
@@ -66,38 +86,61 @@ export default {
         sendMessage : function() {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
-            if (spaceDeletedMessage == '') return console.log('error');
+            if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
+            const fileTypeArray = this.fileData.map((file) => file["type"]);
+            const fileNameArray = this.fileData.map((file) => file["name"]);
 
-            SocketioService.sendMessage(message);
+            SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
+            console.log(this.fileData);
             this.inputMessage = '';
+            this.fileData = [];
+            this.previewImgs = [];
         },
         selectFile : function(event) {
-            // const fileReader = new FileReader();
-            // fileReader.onload(function() {
-            //     this.aaa = fileReader.result;
-            // })
             const endIndex = this.fileData.length
-            
             this.fileData[endIndex] = event.target.files[0];
 
-            // fileReader.readAsDataURL(this.fileData);
+            this.previewImgs = this.fileData.map((file) => {
+                const image = this.createImage(file.type, file);
+                const name = file.name;
+                const previewImg = { image, name };
+                return previewImg;
+            });
+        },
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
+        createImage : function(fileType, fileObject) {
+            if (this.determineFileType(fileType, 'image/')) {
+                return URL.createObjectURL(fileObject);
+            } else if (this.determineFileType(fileType, 'text/')){
+                return require("../../assets/textFile.svg");
+            } else if (this.determineFileType(fileType, 'application/pdf')){
+                return require("../../assets/PDFFile.svg");
+            } else {
+                return require("../../assets/logo.png");
+            }
         },
         closeChatModal: function () {
             this.$emit('parentClick');
         },
-        scrollToEnd() {
+        scrollToEnd: function () {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
             })
-        }
+        },
+        deleteFile: function (index) {
+            this.fileData.splice(index, 1)
+            this.previewImgs.splice(index, 1);
+        } 
     },
-    watch: {
-        inputMessage : function() {
+    computed: {
+        isAbleToSend() {
             const spaceDeletedMessage = this.inputMessage.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) {
-                this.color = '#636363';
+                return '#636363';
             } else {
-                this.color = '#0075ff';
+                return '#0075ff';
             }
         },
     },
@@ -111,8 +154,6 @@ export default {
     height: 500px;
     border-radius: 10px;
     box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
-    position: relative;
-    position: fixed;
     bottom: 64px;
     right: 64px;
 }
@@ -126,8 +167,8 @@ export default {
     display: flex;
     align-items: center;
     height: auto;
-    position: absolute;
     background-color: #fff;
+    position: absolute;
     bottom: 0px;
     width: 400px;
     border-radius: 0 0 10px 10px;

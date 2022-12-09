@@ -1,7 +1,9 @@
 <template>
     <div class="chat-header">
         <div class="title">Inquire by chat</div>
-        <div class="cancel" @click="closeChatModal">X</div>
+        <div class="cancel" @click="closeChatModal">
+            <font-awesome-icon icon="fa-solid fa-xmark"></font-awesome-icon>
+        </div>
     </div>
 </template>
 

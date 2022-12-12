@@ -12,15 +12,12 @@
             <!-- 音声を再生 -->
             <div v-else-if="determineFileType(fileType, 'audio/')">
                 <span class="file-name">{{fileType}}</span>
-                <!-- <div
-                    @click="openFile(fileURL)"
+                <div
+                    @click="playMusic"
                     class="file-text"
                 ><font-awesome-icon icon="fa-solid fa-play" class="icon"/>
                 {{fileName}}
-                </div> -->
-                <audio controls loop>
-                    <source :src="fileURL" type="audio/mp3"/>
-                </audio>
+                </div>
             </div>
             <!-- web上で閲覧 -->
             <div v-else-if="determineFileType(fileType, 'text/')">
@@ -65,12 +62,28 @@ export default {
         fileType: String,
         fileName: String,
     },
+    data() {
+        return {
+            isMusicPlaying: false,
+            selectingMusic: HTMLAudioElement
+        }
+    }, 
     methods: {
         determineFileType: function(fileType, name) {
             return fileType.startsWith(name);
         },
         openFile: function(url) {
             window.open(url)
+        },
+        playMusic: function () {
+            if(this.isMusicPlaying === false){
+                this.selectingMusic = new Audio(this.fileURL);
+                this.isMusicPlaying = true;
+                this.selectingMusic.play();
+            } else {
+                this.isMusicPlaying = false;
+                this.selectingMusic.pause();
+            }
         }
     }
 }
@@ -98,6 +111,15 @@ export default {
     max-width: 280px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     display: block;
+}
+
+.play-music {
+    max-width: 280px;
+    background-color: #F5F5F5;
+    color: #636363;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .icon {

@@ -22,13 +22,14 @@ app.post('/user', function(req, res){
   res.json(postUserData(req, res));
 })
 
-// -------------------------------------------
 
 const io = require("socket.io")(http, {
 	cors: {
 		origins: ["http://localhost:8080"],
         credentials: true
 	},
+  maxHttpBufferSize: 1e8,
+  pingTimeout: 60000
 });
 
 const rooms = [];

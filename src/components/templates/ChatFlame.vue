@@ -42,7 +42,6 @@ import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 import ImagePreview from '../parts/users/ImagePreview.vue';
 
-
 export default {
     components: {
         ChatHeader,
@@ -89,6 +88,11 @@ export default {
             if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
             const fileTypeArray = this.fileData.map((file) => file["type"]);
             const fileNameArray = this.fileData.map((file) => file["name"]);
+
+            // ここでファイル形式をArrayBufferに変換する
+            // const bufferFile = this.fileData.map((file) => {
+            //     return file.arrayBuffer();
+            // })
 
             SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
             console.log(this.fileData);

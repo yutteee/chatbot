@@ -89,11 +89,6 @@ export default {
             const fileTypeArray = this.fileData.map((file) => file["type"]);
             const fileNameArray = this.fileData.map((file) => file["name"]);
 
-            // ここでファイル形式をArrayBufferに変換する
-            // const bufferFile = this.fileData.map((file) => {
-            //     return file.arrayBuffer();
-            // })
-
             SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
             console.log(this.fileData);
             this.inputMessage = '';
@@ -101,6 +96,9 @@ export default {
             this.previewImgs = [];
         },
         selectFile : function(event) {
+            const maxFileSize = 1e8;
+            if(event.target.files[0].size > maxFileSize) return alert("File size is too large.")
+
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
 

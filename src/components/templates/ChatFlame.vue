@@ -42,7 +42,6 @@ import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
 import ImagePreview from '../parts/users/ImagePreview.vue';
 
-
 export default {
     components: {
         ChatHeader,
@@ -97,6 +96,9 @@ export default {
             this.previewImgs = [];
         },
         selectFile : function(event) {
+            const maxFileSize = 1e8;
+            if(event.target.files[0].size > maxFileSize) return alert("File size is too large.")
+
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
 

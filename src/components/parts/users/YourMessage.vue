@@ -1,6 +1,7 @@
 <template>
     <div class="message">
         <div class="file" v-if="message == ''">
+            <!-- image -->
             <div v-if="determineFileType(fileType, 'image/')">
                 <span class="file-name">{{fileName}}</span>
                 <img
@@ -8,12 +9,31 @@
                     :src="fileURL"
                 />
             </div>
+            <!-- audio -->
+            <div v-else-if="determineFileType(fileType, 'audio/')">
+                <span class="file-name">{{fileType}}</span>
+                <div
+                    @click="playMusic"
+                    class="file-text"
+                ><font-awesome-icon icon="fa-solid fa-play" class="music-icon" v-if="!isMusicPlaying"/>
+                <font-awesome-icon icon="fa-solid fa-stop" class="music-icon" v-if="isMusicPlaying"/>
+                {{fileName}}
+                </div>
+            </div>
+            <!-- video -->
+            <div v-else-if="determineFileType(fileType, 'video/')">
+                <span class="file-name">{{fileName}}</span>
+                <video :src="fileURL" class="video" controls>
+                </video>
+            </div>
+            <!-- text, pdf -->
             <div v-else-if="determineFileType(fileType, 'text/')">
                 <span class="file-name">{{fileType}}</span>
                 <div
                     @click="openFile(fileURL)"
                     class="file-text"
-                ><font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
+                >
+                <font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
                 {{fileName}}
                 </div>
             </div>
@@ -26,12 +46,14 @@
                 {{fileName}}
                 </div>
             </div>
+            <!-- other -->
             <div v-else>
                 <span class="file-name">{{fileType}}</span>
                 <div 
                     class="file-text"
                     @click="openFile(fileURL)"
-                >{{fileName}}
+                ><font-awesome-icon icon="fa-regular fa-file" class="icon"/>
+                {{fileName}}
                 </div>
             </div>
         </div>
@@ -49,13 +71,29 @@ export default {
         fileType: String,
         fileName: String,
     },
+    data() {
+        return {
+            isMusicPlaying: false,
+            selectingMusic: HTMLAudioElement
+        }
+    }, 
     methods: {
         determineFileType: function(fileType, name) {
             return fileType.startsWith(name);
         },
         openFile: function(url) {
             window.open(url)
-        }
+        },
+        playMusic: function () {
+            if(this.isMusicPlaying === false){
+                this.selectingMusic = new Audio(this.fileURL);
+                this.isMusicPlaying = true;
+                this.selectingMusic.play();
+            } else {
+                this.isMusicPlaying = false;
+                this.selectingMusic.pause();
+            }
+        },
     }
 }
 </script>
@@ -84,11 +122,31 @@ export default {
     display: block;
 }
 
+.play-music {
+    max-width: 280px;
+    background-color: #F5F5F5;
+    color: #636363;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
 .icon {
     color: #525F7F;
     width: 26px;
     height: 26px;
     padding: 5px;
+}
+
+.music-icon {
+    color: #0075ff;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+}
+
+.video {
+    max-width: 280px;
 }
 
 .file-name {

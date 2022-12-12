@@ -1,6 +1,7 @@
 <template>
     <div class="message">
         <div class="file" v-if="message == ''">
+            <!-- チャット内で表示 -->
             <div v-if="determineFileType(fileType, 'image/')">
                 <span class="file-name">{{fileName}}</span>
                 <img
@@ -8,6 +9,20 @@
                     :src="fileURL"
                 />
             </div>
+            <!-- 音声を再生 -->
+            <div v-else-if="determineFileType(fileType, 'audio/')">
+                <span class="file-name">{{fileType}}</span>
+                <!-- <div
+                    @click="openFile(fileURL)"
+                    class="file-text"
+                ><font-awesome-icon icon="fa-solid fa-play" class="icon"/>
+                {{fileName}}
+                </div> -->
+                <audio controls loop>
+                    <source :src="fileURL" type="audio/mp3"/>
+                </audio>
+            </div>
+            <!-- web上で閲覧 -->
             <div v-else-if="determineFileType(fileType, 'text/')">
                 <span class="file-name">{{fileType}}</span>
                 <div
@@ -26,6 +41,7 @@
                 {{fileName}}
                 </div>
             </div>
+            <!-- その他 -->
             <div v-else>
                 <span class="file-name">{{fileType}}</span>
                 <div 

@@ -15,7 +15,8 @@
                 <div
                     @click="playMusic"
                     class="file-text"
-                ><font-awesome-icon icon="fa-solid fa-play" class="icon"/>
+                ><font-awesome-icon icon="fa-solid fa-play" class="music-icon" v-if="!isMusicPlaying"/>
+                <font-awesome-icon icon="fa-solid fa-stop" class="music-icon" v-if="isMusicPlaying"/>
                 {{fileName}}
                 </div>
             </div>
@@ -25,7 +26,8 @@
                 <div
                     @click="openFile(fileURL)"
                     class="file-text"
-                ><font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
+                >
+                <font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
                 {{fileName}}
                 </div>
             </div>
@@ -126,6 +128,13 @@ export default {
     color: #525F7F;
     width: 26px;
     height: 26px;
+    padding: 5px;
+}
+
+.music-icon {
+    color: #525F7F;
+    width: 20px;
+    height: 20px;
     padding: 5px;
 }
 

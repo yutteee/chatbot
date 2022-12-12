@@ -20,6 +20,12 @@
                 {{fileName}}
                 </div>
             </div>
+            <!-- 動画を再生 -->
+            <div v-else-if="determineFileType(fileType, 'video/')">
+                <span class="file-name">{{fileType}}</span>
+                <video :src="fileURL" class="video" controls>
+                </video>
+            </div>
             <!-- web上で閲覧 -->
             <div v-else-if="determineFileType(fileType, 'text/')">
                 <span class="file-name">{{fileType}}</span>
@@ -86,7 +92,7 @@ export default {
                 this.isMusicPlaying = false;
                 this.selectingMusic.pause();
             }
-        }
+        },
     }
 }
 </script>
@@ -132,10 +138,14 @@ export default {
 }
 
 .music-icon {
-    color: #525F7F;
+    color: #0075ff;
     width: 20px;
     height: 20px;
     padding: 5px;
+}
+
+.video {
+    max-width: 280px;
 }
 
 .file-name {

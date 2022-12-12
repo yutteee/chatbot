@@ -97,7 +97,7 @@ export default {
         },
         selectFile : function(event) {
             const maxFileSize = 1e8;
-            if(event.target.files[0].size > maxFileSize) return alert("File size is too large.")
+            if(event.target.files[0].size > maxFileSize) return alert("File size is too large.");
 
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];

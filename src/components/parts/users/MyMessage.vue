@@ -8,6 +8,17 @@
                     :src="fileURL"
                 />
             </div>
+            <!-- 音声を再生 -->
+            <div v-else-if="determineFileType(fileType, 'audio/')">
+                <span class="file-name">{{fileType}}</span>
+                <div
+                    @click="playMusic"
+                    class="file-text"
+                ><font-awesome-icon icon="fa-solid fa-play" class="music-icon" v-if="!isMusicPlaying"/>
+                <font-awesome-icon icon="fa-solid fa-stop" class="music-icon" v-if="isMusicPlaying"/>
+                {{fileName}}
+                </div>
+            </div>
             <div v-else-if="determineFileType(fileType, 'text/')">
                 <span class="file-name">{{fileType}}</span>
                 <div 
@@ -48,12 +59,28 @@ export default {
         fileType: String,
         fileName: String,
     },
+    data() {
+        return {
+            isMusicPlaying: false,
+            selectingMusic: HTMLAudioElement
+        }
+    }, 
     methods: {
         determineFileType: function(fileType, name) {
             return fileType.startsWith(name);
         },
         openFile: function(url) {
             window.open(url)
+        },
+        playMusic: function () {
+            if(this.isMusicPlaying === false){
+                this.selectingMusic = new Audio(this.fileURL);
+                this.isMusicPlaying = true;
+                this.selectingMusic.play();
+            } else {
+                this.isMusicPlaying = false;
+                this.selectingMusic.pause();
+            }
         }
     },
 }
@@ -100,6 +127,13 @@ export default {
     color: #525F7F;
     width: 26px;
     height: 26px;
+    padding: 5px;
+}
+
+.music-icon {
+    color: #525F7F;
+    width: 20px;
+    height: 20px;
     padding: 5px;
 }
 

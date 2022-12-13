@@ -21,7 +21,12 @@
         </div>
         <div class="messages">
             <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
-                <ImagePreview :previewUrl="preview.image" :previewName="preview.name" @deletePreview="deleteFile(index)"></ImagePreview>
+                <ImagePreview 
+                    :previewURL="preview.image" 
+                    :previewType="preview.type"
+                    :previewName="preview.name" 
+                    @deletePreview="deleteFile(index)"
+                ></ImagePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -103,24 +108,25 @@ export default {
             this.fileData[endIndex] = event.target.files[0];
 
             this.previewImgs = this.fileData.map((file) => {
-                const image = this.createImage(file.type, file);
+                const type = file.type;
                 const name = file.name;
-                const previewImg = { image, name };
+                const image = this.createPreviewURL(type, file);
+                const previewImg = { image, type, name };
                 return previewImg;
             });
         },
         determineFileType: function(fileType, name) {
             return fileType.startsWith(name);
         },
-        createImage : function(fileType, fileObject) {
-            if (this.determineFileType(fileType, 'image/')) {
+        createPreviewURL : function(fileType, fileObject) {
+            if (
+                this.determineFileType(fileType, 'image/')
+                || this.determineFileType(fileType, 'video/')
+                || this.determineFileType(fileType, 'audio/')
+            ) {
                 return URL.createObjectURL(fileObject);
-            } else if (this.determineFileType(fileType, 'text/')){
-                return require("../../assets/textFile.svg");
-            } else if (this.determineFileType(fileType, 'application/pdf')){
-                return require("../../assets/PDFFile.svg");
             } else {
-                return require("../../assets/logo.png");
+                return '';
             }
         },
         closeChatModal: function () {

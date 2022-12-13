@@ -1,20 +1,77 @@
 <template>
     <div class="preview">
-        <img v-bind:src="previewUrl" class="preview-img">
+        <div v-if="determineFileType(previewType, 'image/')">
+            <img v-bind:src="previewURL" class="preview-img">
+        </div>
+        <div v-else-if="determineFileType(previewType, 'audio/')">
+            <div
+                @click="playMusic"
+                class="file-text"
+                ><font-awesome-icon icon="fa-solid fa-play" class="music-icon" v-if="!isMusicPlaying"/>
+                <font-awesome-icon icon="fa-solid fa-stop" class="music-icon" v-if="isMusicPlaying"/>
+                {{previewName}}
+                </div>
+        </div>
+        <div v-else-if="determineFileType(previewType, 'video/')">
+            <video :src="fileURL" class="video" controls>
+            </video>
+        </div>
+        <div v-else-if="determineFileType(previewType, 'text/')">
+            <div class="file-text">
+                <font-awesome-icon icon="fa-regular fa-file-lines" class="icon"/>
+                {{previewName}}
+            </div>
+        </div>
+        <div v-else-if="determineFileType(previewType, 'application/pdf')">
+            <div class="file-text">
+                <font-awesome-icon icon="fa-regular fa-file-pdf" class="icon"/>
+                {{previewName}}
+            </div>
+        </div>
+        <div v-else>
+            <div class="file-text">
+                <font-awesome-icon icon="fa-regular fa-file" class="icon"/>
+                {{previewName}}
+            </div>
+        </div>
         <button class="delete-button" @click="$emit('deletePreview')">
             <font-awesome-icon icon="fa-solid fa-xmark"></font-awesome-icon>
         </button>
     </div>
-    <div class="preview-name">{{previewName}}</div>
 </template>
 
 <script>
 export default {
     emits:['deletePreview'],
     props: {
-        previewUrl: String,
-        previewName: String
-    }
+        previewURL: String,
+        previewName: String,
+        previewType: String
+    },
+    data() {
+        return {
+            isMusicPlaying: false,
+            selectingMusic: HTMLAudioElement
+        }
+    }, 
+    methods: {
+        determineFileType: function(fileType, name) {
+            return fileType.startsWith(name);
+        },
+        openFile: function(url) {
+            window.open(url)
+        },
+        playMusic: function () {
+            if(this.isMusicPlaying === false){
+                this.selectingMusic = new Audio(this.previewURL);
+                this.isMusicPlaying = true;
+                this.selectingMusic.play();
+            } else {
+                this.isMusicPlaying = false;
+                this.selectingMusic.pause();
+            }
+        }
+    },
 }
 
 </script>
@@ -26,14 +83,6 @@ export default {
     display: inline-block;
 }
 
-.preview-name {
-    font-size: 10px;
-    color: #636363;
-    max-width: 100px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
 .preview-img {
     max-width: 100px;
     max-height: 60px;

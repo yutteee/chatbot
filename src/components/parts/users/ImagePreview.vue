@@ -7,13 +7,13 @@
             <div
                 @click="playMusic"
                 class="file-text"
-                ><font-awesome-icon icon="fa-solid fa-play" class="music-icon" v-if="!isMusicPlaying"/>
-                <font-awesome-icon icon="fa-solid fa-stop" class="music-icon" v-if="isMusicPlaying"/>
+                ><font-awesome-icon icon="fa-solid fa-play" class="icon" v-if="!isMusicPlaying"/>
+                <font-awesome-icon icon="fa-solid fa-stop" class="icon" v-if="isMusicPlaying"/>
                 {{previewName}}
                 </div>
         </div>
         <div v-else-if="determineFileType(previewType, 'video/')">
-            <video :src="fileURL" class="video" controls>
+            <video :src="previewURL" class="preview-img">
             </video>
         </div>
         <div v-else-if="determineFileType(previewType, 'text/')">
@@ -84,14 +84,33 @@ export default {
 }
 
 .preview-img {
-    max-width: 100px;
-    max-height: 60px;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 5px;
+}
+
+.file-text {
+    width: 180px;
+    border: 1px solid rgb(230, 230, 230);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-size: 8px;
+}
+
+.icon {
+    color: #525F7F;
+    width: 24px;
+    height: 24px;
+    padding: 5px;
 }
 
 .delete-button {
     position: absolute;
-    top: -6px;
-    right: -8px;
+    top: 0;
+    right: -9px;
     background: #000;
     color: #fff;
     border-radius: 50%;

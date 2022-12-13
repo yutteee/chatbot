@@ -105,6 +105,7 @@ export default {
     width: 280px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     display: block;
+    min-height: 100px;
 }
 
 .file {

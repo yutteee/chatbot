@@ -118,6 +118,7 @@ export default {
 
 .sendedImg {
     width: 280px;
+    min-height: 100px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     display: block;
 }

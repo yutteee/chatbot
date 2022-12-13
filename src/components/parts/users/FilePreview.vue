@@ -94,7 +94,7 @@ export default {
 }
 
 .file-text {
-    width: 180px;
+    width: 160px;
     border: 1px solid rgb(230, 230, 230);
     border-radius: 5px;
     display: flex;

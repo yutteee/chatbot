@@ -21,13 +21,13 @@
         </div>
         <div class="messages">
             <div class="previews">
-                <ImagePreview 
+                <FilePreview 
                     v-for="(preview, index) in previewImgs" :key="preview"
                     :previewURL="preview.image" 
                     :previewType="preview.type"
                     :previewName="preview.name" 
                     @deletePreview="deleteFile(index)"
-                ></ImagePreview>
+                ></FilePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -46,7 +46,7 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
-import ImagePreview from '../parts/users/ImagePreview.vue';
+import FilePreview from '../parts/users/FilePreview.vue';
 
 export default {
     components: {
@@ -56,7 +56,7 @@ export default {
         MessageSendButton,
         MyMessage,
         YourMessage,
-        ImagePreview
+        FilePreview
     },
     data () {
         return {

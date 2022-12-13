@@ -20,8 +20,14 @@
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
-                <ImagePreview :previewUrl="preview.image" :previewName="preview.name" @deletePreview="deleteFile(index)"></ImagePreview>
+            <div class="previews">
+                <FilePreview 
+                    v-for="(preview, index) in previewImgs" :key="preview"
+                    :previewURL="preview.image" 
+                    :previewType="preview.type"
+                    :previewName="preview.name" 
+                    @deletePreview="deleteFile(index)"
+                ></FilePreview>
             </div>
             <div class="forms">
                 <FileUpload v-on:change="selectFile"></FileUpload> 
@@ -40,7 +46,7 @@ import MessageSendButton from '../parts/users/MessageSendButton.vue';
 import MyMessage from '../parts/users/MyMessage.vue';
 import YourMessage from '../parts/users/YourMessage.vue';
 import SocketioService from '../../services/socketio.service.js';
-import ImagePreview from '../parts/users/ImagePreview.vue';
+import FilePreview from '../parts/users/FilePreview.vue';
 
 export default {
     components: {
@@ -50,7 +56,7 @@ export default {
         MessageSendButton,
         MyMessage,
         YourMessage,
-        ImagePreview
+        FilePreview
     },
     data () {
         return {
@@ -103,24 +109,25 @@ export default {
             this.fileData[endIndex] = event.target.files[0];
 
             this.previewImgs = this.fileData.map((file) => {
-                const image = this.createImage(file.type, file);
+                const type = file.type;
                 const name = file.name;
-                const previewImg = { image, name };
+                const image = this.createPreviewURL(type, file);
+                const previewImg = { image, type, name };
                 return previewImg;
             });
         },
         determineFileType: function(fileType, name) {
             return fileType.startsWith(name);
         },
-        createImage : function(fileType, fileObject) {
-            if (this.determineFileType(fileType, 'image/')) {
+        createPreviewURL : function(fileType, fileObject) {
+            if (
+                this.determineFileType(fileType, 'image/')
+                || this.determineFileType(fileType, 'video/')
+                || this.determineFileType(fileType, 'audio/')
+            ) {
                 return URL.createObjectURL(fileObject);
-            } else if (this.determineFileType(fileType, 'text/')){
-                return require("../../assets/textFile.svg");
-            } else if (this.determineFileType(fileType, 'application/pdf')){
-                return require("../../assets/PDFFile.svg");
             } else {
-                return require("../../assets/logo.png");
+                return '';
             }
         },
         closeChatModal: function () {
@@ -177,10 +184,12 @@ export default {
     flex-wrap: wrap;
 }
 
-.preview {
-    padding-top: 8px;
-    margin-left: 8px;
-    font-size: 12px;
+.previews {
+    display: flex;
+    align-items: center;
+    max-width: 390px;
+    width: 100%;
+    overflow-x: scroll;
 }
 
 .forms {
@@ -203,5 +212,4 @@ export default {
     left: 50%;
     transform: translateX(-50%);
 }
-
 </style>

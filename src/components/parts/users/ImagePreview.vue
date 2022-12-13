@@ -81,6 +81,8 @@ export default {
     position: relative;
     width: auto;
     display: inline-block;
+    padding-top: 8px;
+    margin-left: 8px;
 }
 
 .preview-img {

@@ -20,8 +20,9 @@
             </div>
         </div>
         <div class="messages">
-            <div class="preview" v-for="(preview, index) in previewImgs" :key="preview">
+            <div class="previews">
                 <ImagePreview 
+                    v-for="(preview, index) in previewImgs" :key="preview"
                     :previewURL="preview.image" 
                     :previewType="preview.type"
                     :previewName="preview.name" 
@@ -183,10 +184,12 @@ export default {
     flex-wrap: wrap;
 }
 
-.preview {
-    padding-top: 8px;
-    margin-left: 8px;
-    font-size: 12px;
+.previews {
+    display: flex;
+    align-items: center;
+    max-width: 390px;
+    width: 100%;
+    overflow-x: scroll;
 }
 
 .forms {
@@ -209,5 +212,4 @@ export default {
     left: 50%;
     transform: translateX(-50%);
 }
-
 </style>

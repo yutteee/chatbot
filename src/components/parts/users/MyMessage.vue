@@ -102,15 +102,14 @@ export default {
 }
 
 .sendedImg {
-    max-width: 280px;
+    width: 280px;
     box-shadow: 4px 2px 2px rgb(133, 133, 133);
     display: block;
-    min-width: 100px;
 }
 
 .file {
     width: fit-content;
-    max-width: 280px;
+    width: 280px;
     margin:32px 40px 5px auto;
 }
 
@@ -119,6 +118,11 @@ export default {
     font-size: 12px;
     position: absolute;
     top: -18px;
+    max-width: 280px;
+    width: auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .file-text {

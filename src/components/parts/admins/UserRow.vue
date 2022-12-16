@@ -24,6 +24,7 @@ export default {
 .user-row {
     display: flex;
     align-items: center;
+    border-bottom: 1px solid #8B8B8B;
 }
 
 .user-image {
@@ -39,10 +40,10 @@ export default {
 }
 
 .user-id {
-    width: 10%;
+    width: 20%;
 }
 
 .user-birthday {
-    width: 40%;
+    width: 30%;
 }
 </style>

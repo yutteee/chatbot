@@ -1,9 +1,18 @@
 <template>
-<div>{{user.name}}</div>
+    <UserDetail
+        :userName="user.name"
+        :userId="user.id"
+        :userImage="user.image"
+        :userBirthday="user.birthday"
+    ></UserDetail>
 </template>
 
 <script>
+import UserDetail from '../parts/admins/UserDetail.vue';
 export default {
+    components: {
+        UserDetail
+    },
     data() {
         return {
             user: {}

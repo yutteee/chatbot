@@ -4,7 +4,7 @@
         :key="user.id"
         :userId="user.id"
         :userName="user.name"
-        :userImg="user.img"
+        :userImage="user.image"
         :userBirthDay="user.birthday"
     ></UserRow>
 </template>
@@ -22,14 +22,14 @@ export default {
                 {
                     id: 1,
                     name: "yusaku",
-                    image: "logo.png",
-                    birthday: Date(2002, 6, 12)
+                    image: "logo",
+                    birthday: "2002/07/12"
                 },
                 {
                     id: 2,
                     name: "nakamura",
-                    image: "logo.png",
-                    birthday: Date(2000, 6, 2)
+                    image: "logo",
+                    birthday: "2000/02/11"
                 },
             ]
         }

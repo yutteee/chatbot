@@ -3,7 +3,7 @@
     <div class="users-list">
         <UserListHeader></UserListHeader>
         <UserRow 
-            v-for="user in users" 
+            v-for="user in this.$store.state.users" 
             :key="user.id"
             :userId="user.id"
             :userName="user.name"
@@ -22,24 +22,6 @@ export default {
         UserListHeader,
         UserRow
     },
-    data() {
-        return {
-            users: [
-                {
-                    id: 1,
-                    name: "yusaku",
-                    image: "logo",
-                    birthday: "2002/07/12"
-                },
-                {
-                    id: 2,
-                    name: "nakamura",
-                    image: "logo",
-                    birthday: "2000/02/11"
-                },
-            ]
-        }
-    }
 }
 </script>
 

@@ -4,6 +4,7 @@
         :userId="user.id"
         :userImage="user.image"
         :userBirthday="user.birthday"
+        class="user-info"
     ></UserDetail>
 </template>
 
@@ -26,3 +27,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.user-info {
+    width: 33%;
+}
+</style>

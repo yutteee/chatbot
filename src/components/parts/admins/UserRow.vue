@@ -2,7 +2,12 @@
     <div class="user-row">
         <div class="user-name">
             <img :src="require(`../../../assets/${userImage}.png`)" class="user-image"/>
-            <a href="#" class="user-link">{{userName}}</a>
+            <router-link
+                :to="{ name: 'adminUserDetail', params: {id: userId}}"
+                class="user-link"
+            >
+            {{userName}}
+            </router-link>
         </div>
         <div class="user-id">{{userId}}</div>
         <div class="user-birthday">{{userBirthDay}}</div>

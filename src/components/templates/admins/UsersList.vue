@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import UserListHeader from '../parts/admins/UserListHeader.vue'
-import UserRow from '../parts/admins/UserRow.vue'
+import UserListHeader from '../../parts/admins/UserListHeader.vue'
+import UserRow from '../../parts/admins/UserRow.vue'
 
 export default {
     components :{

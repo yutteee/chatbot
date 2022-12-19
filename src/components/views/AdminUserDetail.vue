@@ -1,18 +1,29 @@
 <template>
-    <UserDetail
-        :userName="user.name"
-        :userId="user.id"
-        :userImage="user.image"
-        :userBirthday="user.birthday"
-        class="user-info"
-    ></UserDetail>
+    <MyHeader></MyHeader>
+    <div class="admin">
+        <UserDetail
+            :userName="user.name"
+            :userId="user.id"
+            :userImage="user.image"
+            :userBirthday="user.birthday"
+            class="user-info"
+        ></UserDetail>
+        <AdminChat
+            class="admin-chat"
+        ></AdminChat>
+    </div>
 </template>
 
 <script>
 import UserDetail from '../parts/admins/UserDetail.vue';
+import MyHeader from '../templates/MyHeader.vue';
+import AdminChat from '../templates/admins/AdminChat.vue';
+
 export default {
     components: {
-        UserDetail
+        UserDetail,
+        MyHeader,
+        AdminChat
     },
     data() {
         return {
@@ -29,7 +40,14 @@ export default {
 </script>
 
 <style scoped>
+.admin {
+    display: flex;
+}
 .user-info {
     width: 33%;
+}
+
+.admin-chat {
+    width: 67%;
 }
 </style>

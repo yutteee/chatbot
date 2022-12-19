@@ -1,12 +1,13 @@
 <template>
     <MyHeader></MyHeader>
+    <!-- chatModalに変更する -->
     <ChatFlame v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 
 <script>
 import FloatingActionButton from '../parts/FloatingActionButton.vue';
-import ChatFlame from '../templates/ChatFlame.vue';
+import ChatFlame from '../templates/ChatScreen.vue';
 import MyHeader from '../templates/MyHeader.vue'
 
 export default {

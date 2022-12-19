@@ -19,7 +19,7 @@ export default {
 <style scoped>
 input {
     height: 32px;
-    width: 300px;
+    width: 80%;
     padding-left: 10px;
     padding-right: 10px;
     border-radius: 30px;

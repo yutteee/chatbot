@@ -5,7 +5,7 @@
 
 <script>
 import MyHeader from '../templates/MyHeader.vue'
-import UsersList from '../templates/UsersList.vue'
+import UsersList from '../templates/admins/UsersList.vue'
 
 export default {
     components: {

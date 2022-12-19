@@ -28,7 +28,5 @@ export default {
     height: 500px;
     border-radius: 10px;
     box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
-    bottom: 64px;
-    right: 64px;
 }
 </style>

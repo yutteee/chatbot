@@ -1,6 +1,5 @@
 <template>
     <MyHeader></MyHeader>
-    <!-- chatModalに変更する -->
     <ChatModal v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatModal>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
@@ -36,5 +35,7 @@ export default {
 <style scoped>
 .chatModal {
     position: absolute;
+    bottom: 64px;
+    right: 64px;
 }
 </style>

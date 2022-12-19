@@ -1,36 +1,38 @@
 <template>
-    <div class="chats" ref="myModal">
-        <div v-for="message in messages" :key="message.text">
-            <YourMessage
-                v-if="message.name !== $store.state.user_name"
-                :message="message.text"
-                :fileURL="message.file"
-                :fileType="message.fileType"
-                :fileName="message.fileName"
-            ></YourMessage>
-            <MyMessage 
-                v-else
-                :message="message.text"
-                :fileURL="message.file"
-                :fileType="message.fileType"
-                :fileName="message.fileName"
-            ></MyMessage>
+    <div class="screen">
+        <div class="chats" ref="myModal">
+            <div v-for="message in messages" :key="message.text">
+                <YourMessage
+                    v-if="message.name !== $store.state.user_name"
+                    :message="message.text"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
+                ></YourMessage>
+                <MyMessage 
+                    v-else
+                    :message="message.text"
+                    :fileURL="message.file"
+                    :fileType="message.fileType"
+                    :fileName="message.fileName"
+                ></MyMessage>
+            </div>
         </div>
-    </div>
-    <div class="messages">
-        <div class="previews">
-            <FilePreview 
-                v-for="(preview, index) in previewImgs" :key="preview"
-                :previewURL="preview.image" 
-                :previewType="preview.type"
-                :previewName="preview.name" 
-                @deletePreview="deleteFile(index)"
-            ></FilePreview>
-        </div>
-        <div class="forms">
-            <FileUpload v-on:change="selectFile"></FileUpload> 
-            <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-            <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
+        <div class="messages">
+            <div class="previews">
+                <FilePreview 
+                    v-for="(preview, index) in previewImgs" :key="preview"
+                    :previewURL="preview.image" 
+                    :previewType="preview.type"
+                    :previewName="preview.name" 
+                    @deletePreview="deleteFile(index)"
+                ></FilePreview>
+            </div>
+            <div class="forms">
+                <FileUpload v-on:change="selectFile"></FileUpload> 
+                <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
+                <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
+            </div>
         </div>
     </div>
 </template>
@@ -152,16 +154,8 @@ export default {
 </script>
 
 <style scoped>
-.flame {
-    width: 400px;
-    height: 500px;
-    border-radius: 10px;
-    box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
-    bottom: 64px;
-    right: 64px;
-}
-
 .chats {
+    /* 可変にする */
     height: 390px;
     overflow: scroll;
 }
@@ -172,8 +166,8 @@ export default {
     height: auto;
     background-color: #fff;
     position: absolute;
-    bottom: 0px;
-    width: 400px;
+    bottom: 0;
+    width: 100%;
     border-radius: 0 0 10px 10px;
     flex-wrap: wrap;
 }
@@ -197,7 +191,7 @@ export default {
 
 .messages::before {
     content: "";
-    width: 360px;
+    width: 90%;
     height: 2px;
     background: #ebebeb;
     display: inline-block;

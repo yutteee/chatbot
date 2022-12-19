@@ -19,7 +19,7 @@ export default createStore({
           image: "logo",
           birthday: "2000/02/01"
       },
-  ],
+    ],
   },
   getters: {
   },

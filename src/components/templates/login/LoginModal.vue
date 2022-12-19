@@ -37,9 +37,14 @@ export default {
         submit: async function() {
             const user = {name: this.name, id :this.password}
             this.$store.commit('login', user)
-            const response = await http.post('/user', user)
-            console.log(response)
-            this.$router.push('/users')
+            await http.post('/login', user)
+            .then(function(response){
+                console.log(response);
+                this.$router.push('/users');
+            }.bind(this)).catch(function(err) {
+                console.log(err);
+                alert("user not found.")
+            })
         }
     }
 }

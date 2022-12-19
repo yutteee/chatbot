@@ -2,6 +2,7 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { ALL } = require('dns');
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -13,13 +14,33 @@ let userData = {
   message: "",
 };
 
-const postUserData = function (req, res) {
-  userData.name = req.body.name;
-  userData.id = req.body.id;
+// 本来はDBから呼び出すもの
+const ALL_USERS = [
+  {
+      id: 1,
+      name: "yusaku",
+      image: "logo",
+      birthday: "2002/07/12",
+  },
+  {
+      id: 2,
+      name: "nakamura",
+      image: "logo",
+      birthday: "2000/02/01"
+  },
+];
+
+const postUserData = function (user_data) {
+  // 本来はパスワードを使って認証をおこなう。
+  const strId = user_data.id;
+  const intId = Number(strId);
+  const searchedUser = ALL_USERS.find(({ id }) => id === intId);
+  if (searchedUser.length === 0) return console.error("User not found.")
+  return searchedUser;
 };
 
-app.post('/user', function(req, res){
-  res.json(postUserData(req, res));
+app.post('/login', function(req, res){
+  res.json(postUserData(req.body));
 })
 
 

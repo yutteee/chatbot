@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import LoginButton from '../parts/LoginButton.vue';
-import NameForm from '../parts/NameForm.vue';
-import PasswordForm from '../parts/PasswordForm.vue';
-import http from '../../axios/index.js';
+import LoginButton from '../../parts/LoginButton.vue';
+import NameForm from '../../parts/NameForm.vue';
+import PasswordForm from '../../parts/PasswordForm.vue';
+import http from '../../../axios/index.js';
 
 export default {
     components: {

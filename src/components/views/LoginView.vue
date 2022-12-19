@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import LoginModal from '../templates/LoginModal.vue';
+import LoginModal from '../templates/login/LoginModal.vue';
 import MyHeader from '../templates/MyHeader.vue'
 export default {
     components: {

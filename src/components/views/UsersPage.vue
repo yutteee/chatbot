@@ -1,18 +1,18 @@
 <template>
     <MyHeader></MyHeader>
-    <ChatFlame v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatFlame>
+    <ChatModal v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatModal>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>
 
 <script>
 import FloatingActionButton from '../parts/FloatingActionButton.vue';
-import ChatFlame from '../templates/ChatFlame.vue';
+import ChatModal from '../templates/users/ChatModal.vue';
 import MyHeader from '../templates/MyHeader.vue'
 
 export default {
     components: {
         FloatingActionButton,
-        ChatFlame,
+        ChatModal,
         MyHeader
     },
     data () {
@@ -35,5 +35,7 @@ export default {
 <style scoped>
 .chatModal {
     position: absolute;
+    bottom: 64px;
+    right: 64px;
 }
 </style>

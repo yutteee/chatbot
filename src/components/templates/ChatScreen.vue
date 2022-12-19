@@ -1,6 +1,5 @@
 <template>
-    <div class="flame">
-        <ChatHeader @childClick="closeChatModal"></ChatHeader>
+    <div class="screen">
         <div class="chats" ref="myModal">
             <div v-for="message in messages" :key="message.text">
                 <YourMessage
@@ -39,7 +38,6 @@
 </template>
 
 <script>
-import ChatHeader from '../parts/users/ChatHeader.vue';
 import MessageForm from '../parts/users/MessageForm.vue';
 import FileUpload from '../parts/users/FileUpload.vue';
 import MessageSendButton from '../parts/users/MessageSendButton.vue';
@@ -50,7 +48,6 @@ import FilePreview from '../parts/users/FilePreview.vue';
 
 export default {
     components: {
-        ChatHeader,
         MessageForm,
         FileUpload,
         MessageSendButton,
@@ -92,11 +89,13 @@ export default {
             const message = this.inputMessage;
             const spaceDeletedMessage = message.replace(/\s+/g, '');
             if (spaceDeletedMessage == '' && this.fileData.length == 0) return;
+
             const fileTypeArray = this.fileData.map((file) => file["type"]);
             const fileNameArray = this.fileData.map((file) => file["name"]);
 
             SocketioService.sendMessage(message, this.fileData, fileTypeArray, fileNameArray);
             console.log(this.fileData);
+
             this.inputMessage = '';
             this.fileData = [];
             this.previewImgs = [];
@@ -130,9 +129,6 @@ export default {
                 return '';
             }
         },
-        closeChatModal: function () {
-            this.$emit('parentClick');
-        },
         scrollToEnd: function () {
             this.$nextTick(() => {
                 this.$refs['myModal'].scrollTo(0, this.$refs['myModal'].scrollHeight + 1000)
@@ -158,16 +154,8 @@ export default {
 </script>
 
 <style scoped>
-.flame {
-    width: 400px;
-    height: 500px;
-    border-radius: 10px;
-    box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
-    bottom: 64px;
-    right: 64px;
-}
-
 .chats {
+    /* 可変にする */
     height: 390px;
     overflow: scroll;
 }
@@ -178,8 +166,8 @@ export default {
     height: auto;
     background-color: #fff;
     position: absolute;
-    bottom: 0px;
-    width: 400px;
+    bottom: 0;
+    width: 100%;
     border-radius: 0 0 10px 10px;
     flex-wrap: wrap;
 }
@@ -203,7 +191,7 @@ export default {
 
 .messages::before {
     content: "";
-    width: 360px;
+    width: 90%;
     height: 2px;
     background: #ebebeb;
     display: inline-block;

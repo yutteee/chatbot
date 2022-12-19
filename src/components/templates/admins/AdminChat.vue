@@ -1,5 +1,7 @@
 <template>
-    <ChatScreen></ChatScreen>
+    <div class="chat">
+        <ChatScreen></ChatScreen>
+    </div>
 </template>
 
 <script>
@@ -13,4 +15,7 @@ export default {
 </script>
 
 <style scoped>
+.chat {
+    width: 60%;
+}
 </style>

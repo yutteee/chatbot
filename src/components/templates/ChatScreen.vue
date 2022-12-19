@@ -1,45 +1,41 @@
 <template>
-    <div class="flame">
-        <ChatHeader @childClick="closeChatModal"></ChatHeader>
-        <div class="chats" ref="myModal">
-            <div v-for="message in messages" :key="message.text">
-                <YourMessage
-                    v-if="message.name !== $store.state.user_name"
-                    :message="message.text"
-                    :fileURL="message.file"
-                    :fileType="message.fileType"
-                    :fileName="message.fileName"
-                ></YourMessage>
-                <MyMessage 
-                    v-else
-                    :message="message.text"
-                    :fileURL="message.file"
-                    :fileType="message.fileType"
-                    :fileName="message.fileName"
-                ></MyMessage>
-            </div>
+    <div class="chats" ref="myModal">
+        <div v-for="message in messages" :key="message.text">
+            <YourMessage
+                v-if="message.name !== $store.state.user_name"
+                :message="message.text"
+                :fileURL="message.file"
+                :fileType="message.fileType"
+                :fileName="message.fileName"
+            ></YourMessage>
+            <MyMessage 
+                v-else
+                :message="message.text"
+                :fileURL="message.file"
+                :fileType="message.fileType"
+                :fileName="message.fileName"
+            ></MyMessage>
         </div>
-        <div class="messages">
-            <div class="previews">
-                <FilePreview 
-                    v-for="(preview, index) in previewImgs" :key="preview"
-                    :previewURL="preview.image" 
-                    :previewType="preview.type"
-                    :previewName="preview.name" 
-                    @deletePreview="deleteFile(index)"
-                ></FilePreview>
-            </div>
-            <div class="forms">
-                <FileUpload v-on:change="selectFile"></FileUpload> 
-                <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
-                <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
-            </div>
+    </div>
+    <div class="messages">
+        <div class="previews">
+            <FilePreview 
+                v-for="(preview, index) in previewImgs" :key="preview"
+                :previewURL="preview.image" 
+                :previewType="preview.type"
+                :previewName="preview.name" 
+                @deletePreview="deleteFile(index)"
+            ></FilePreview>
+        </div>
+        <div class="forms">
+            <FileUpload v-on:change="selectFile"></FileUpload> 
+            <MessageForm :message="inputMessage" @update:message="inputMessage = $event"></MessageForm>
+            <MessageSendButton v-on:click="sendMessage" :color="isAbleToSend"></MessageSendButton>
         </div>
     </div>
 </template>
 
 <script>
-import ChatHeader from '../parts/users/ChatHeader.vue';
 import MessageForm from '../parts/users/MessageForm.vue';
 import FileUpload from '../parts/users/FileUpload.vue';
 import MessageSendButton from '../parts/users/MessageSendButton.vue';
@@ -50,7 +46,6 @@ import FilePreview from '../parts/users/FilePreview.vue';
 
 export default {
     components: {
-        ChatHeader,
         MessageForm,
         FileUpload,
         MessageSendButton,
@@ -131,9 +126,6 @@ export default {
             } else {
                 return '';
             }
-        },
-        closeChatModal: function () {
-            this.$emit('parentClick');
         },
         scrollToEnd: function () {
             this.$nextTick(() => {

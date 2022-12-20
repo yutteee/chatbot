@@ -19,7 +19,6 @@
 import LoginButton from '../../parts/LoginButton.vue';
 import NameForm from '../../parts/NameForm.vue';
 import PasswordForm from '../../parts/PasswordForm.vue';
-import http from '../../../axios/index.js';
 
 export default {
     components: {
@@ -36,15 +35,7 @@ export default {
     methods: {
         submit: async function() {
             const user = {name: this.name, id :this.password}
-            this.$store.commit('login', user)
-            await http.post('/login', user)
-            .then(function(response){
-                console.log(response);
-                this.$router.push('/users');
-            }.bind(this)).catch(function(err) {
-                console.log(err);
-                alert("user not found.")
-            })
+            await this.$store.dispatch('login', user)
         }
     }
 }

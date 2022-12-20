@@ -35,7 +35,7 @@ const postUserData = function (user_data) {
   const strId = user_data.id;
   const intId = Number(strId);
   const searchedUser = ALL_USERS.find(({ id }) => id === intId);
-  if (searchedUser.length === 0) return console.error("User not found.")
+  if (searchedUser.length === 0) return console.error("User not found.");
   return searchedUser;
 };
 

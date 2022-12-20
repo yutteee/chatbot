@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import http from '../axios/index';
+import router from '../router/index.js';
 
 export default createStore({
   state: {
@@ -24,12 +26,24 @@ export default createStore({
   getters: {
   },
   mutations: {
-    login : function(state, {name, id}) {
+    logined : function(state, {name, id}) {
       state.user_name = name;
       state.user_id = id;
     }
   },
   actions: {
+    login : function({commit}, user) {
+      http.post('/login', user)
+        .then(function(response){
+            console.log(response);
+            commit('logined', user);
+            router.push('/users');
+        }.bind(this))
+        .catch(function(err) {
+            console.log(err);
+            alert("user not found.");
+        })
+    }
   },
   modules: {
   }

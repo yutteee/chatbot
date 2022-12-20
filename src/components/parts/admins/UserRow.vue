@@ -23,12 +23,14 @@ export default {
         userId: Number,
         userName: String,
         userImage: String,
-        userBirthDay: String
+        userBirthDay: String,
+        roomID: String
     },
     methods: {
         enterRoom: function(){
             SocketioService.setupSocketConnection();
-            SocketioService.createRoom("admin", this.userId);
+            // admin用のログインができたら名前をadminに変える
+            SocketioService.createRoom(this.$store.state.user_name, this.$store.state.user_id, this.roomID);
         }
     }
 }

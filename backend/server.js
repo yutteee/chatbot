@@ -7,26 +7,21 @@ const { ALL } = require('dns');
 app.use(bodyParser.json());
 app.use(cors());
 
-let userData = {
-  room: "",
-  name: "",
-  id: 0,
-  message: "",
-};
-
 // 本来はDBから呼び出すもの
 const ALL_USERS = [
   {
       id: 1,
       name: "yusaku",
-      image: "logo",
+      image: "logo.png",
       birthday: "2002/07/12",
+      roomID: "room1"
   },
   {
       id: 2,
       name: "nakamura",
-      image: "logo",
-      birthday: "2000/02/01"
+      image: "logo.png",
+      birthday: "2000/02/01",
+      roomID: "room2"
   },
 ];
 
@@ -58,11 +53,11 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  socket.on('create room', function(user_name, roomID) {
+  socket.on('create room', function(user_name, user_id, roomID) {
     const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
-      id: socket.id,
+      id: user_id,
       roomID
     };
     const room = {
@@ -89,8 +84,7 @@ io.on('connection', (socket) => {
     io.in(chatRoom.id).emit('get message', chatRoom);
 
     socket.on('send message', function(message, file, fileTypes, fileNames) {
-      console.log("メッセージを受け取ったよ");
-      const user = users.find((u) => u.id == socket.id);
+      const user = users.find((u) => u.id == user_id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 

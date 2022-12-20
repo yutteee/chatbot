@@ -9,6 +9,7 @@
             :userName="user.name"
             :userImage="user.image"
             :userBirthDay="user.birthday"
+            :roomID="user.roomID"
         ></UserRow>
     </div>
 </template>

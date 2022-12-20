@@ -25,7 +25,11 @@ export default {
         buttonClicked: function () {
             this.isModalOpen = true;
             SocketioService.setupSocketConnection();
-            SocketioService.createRoom(this.$store.state.user_name, this.$store.state.user_id);
+            SocketioService.createRoom(
+                this.$store.state.user_name, 
+                this.$store.state.user_id, 
+                this.$store.state.roomID
+            );
         },
         closeChatModal: function () {
             this.isModalOpen = false;

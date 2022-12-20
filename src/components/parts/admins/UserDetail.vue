@@ -1,7 +1,7 @@
 <template>
     <div class="user-detail">
         <div class="user-detail-row">
-            <img :src="require(`../../../assets/${userImage}.png`)" class="user-image"/>
+            <img :src="require(`../../../assets/${userImage}`)" class="user-image"/>
         </div>
         <div class="user-detail-row">
             <div class="user-detail-row-title">name:</div>

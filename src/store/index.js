@@ -9,22 +9,7 @@ export default createStore({
     user_id: 0,
     roomID: "",
     // server.jsから呼び出すようにする
-    users: [
-      {
-          id: 1,
-          name: "yusaku",
-          image: "logo",
-          birthday: "2002/07/12",
-          roomID: "room1"
-      },
-      {
-          id: 2,
-          name: "nakamura",
-          image: "logo",
-          birthday: "2000/02/01",
-          roomID: "room2"
-      },
-    ],
+    users: [],
   },
   getters: {
   },
@@ -34,6 +19,9 @@ export default createStore({
       state.user_name = user_data.name;
       state.user_id = user_data.id;
       state.roomID = user_data.roomID;
+    },
+    saveAllUsers : function(state, users) {
+      state.users = users;
     }
   },
   actions: {
@@ -47,6 +35,16 @@ export default createStore({
         .catch(function(err) {
             console.log(err);
             alert("user not found.");
+        });
+    },
+    getAllUsers: function({commit}) {
+      http.post('/allUsers')
+        .then(function(response){
+          commit('saveAllUsers', response.data);
+          console.log(response.data)
+        })
+        .catch(function(err) {
+          console.log(err);
         })
     }
   },

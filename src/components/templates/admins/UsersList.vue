@@ -23,6 +23,9 @@ export default {
         UserListHeader,
         UserRow
     },
+    created() {
+        this.$store.dispatch('getAllUsers')
+    }
 }
 </script>
 

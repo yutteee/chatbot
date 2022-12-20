@@ -39,6 +39,9 @@ app.post('/login', function(req, res){
   res.json(postUserData(req.body));
 })
 
+app.post('/allUsers', function(req, res){
+  res.json(ALL_USERS);
+})
 
 const io = require("socket.io")(http, {
 	cors: {

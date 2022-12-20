@@ -1,7 +1,7 @@
 <template>
     <div class="user-row">
         <div class="user-name">
-            <img :src="require(`../../../assets/${userImage}.png`)" class="user-image"/>
+            <img :src="require(`../../../assets/${userImage}`)" class="user-image"/>
             <router-link
                 :to="{ name: 'adminUserDetail', params: {id: userId}}"
                 class="user-link"

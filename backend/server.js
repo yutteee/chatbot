@@ -34,7 +34,8 @@ const postUserData = function (user_data) {
   // 本来はパスワードを使って認証をおこなう。
   const strId = user_data.id;
   const intId = Number(strId);
-  const searchedUser = ALL_USERS.find(({ id }) => id === intId);
+  const userName = user_data.name;
+  const searchedUser = ALL_USERS.find(({ id, name }) => id === intId && name == userName);
   if (searchedUser.length === 0) return console.error("User not found.");
   return searchedUser;
 };

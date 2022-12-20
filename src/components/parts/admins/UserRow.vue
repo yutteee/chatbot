@@ -5,6 +5,7 @@
             <router-link
                 :to="{ name: 'adminUserDetail', params: {id: userId}}"
                 class="user-link"
+                @click="enterRoom"
             >
             {{userName}}
             </router-link>
@@ -15,12 +16,20 @@
 </template>
 
 <script>
+import SocketioService from '@/services/socketio.service';
+
 export default {
     props: {
         userId: Number,
         userName: String,
         userImage: String,
         userBirthDay: String
+    },
+    methods: {
+        enterRoom: function(){
+            SocketioService.setupSocketConnection();
+            SocketioService.createRoom("admin", this.userId);
+        }
     }
 }
 </script>

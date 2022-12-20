@@ -64,10 +64,10 @@ export default {
             previewImgs: [],
         }
     },
-    created() {
-        SocketioService.setupSocketConnection();
-        SocketioService.createRoom(this.$store.state.user_name, this.roomID)
-    },
+    // created() {
+    //     SocketioService.setupSocketConnection();
+    //     SocketioService.createRoom(this.$store.state.user_name, this.roomID);
+    // },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages.map((message) => {

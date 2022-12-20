@@ -8,6 +8,7 @@ export default createStore({
     user_img: "logo.png",
     user_name: "",
     user_id: 0,
+    // server.jsから呼び出すようにする
     users: [
       {
           id: 1,

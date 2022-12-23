@@ -8,7 +8,9 @@
             :userBirthday="user.birthday"
             class="user-info"
         ></UserDetail>
-        <AdminChat></AdminChat>
+        <div class="user-chat">
+            <AdminChat></AdminChat>
+        </div>
     </div>
 </template>
 
@@ -40,9 +42,13 @@ export default {
 <style scoped>
 .admin {
     display: flex;
-    height: calc(100vh - 64px);
 }
 .user-info {
     width: 33%;
+}
+
+.user-chat {
+    width: 67%;
+    border-left: 2px solid #ebebeb;
 }
 </style>

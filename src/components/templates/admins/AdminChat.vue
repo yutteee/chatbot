@@ -1,6 +1,6 @@
 <template>
     <div class="chat-frame">
-            <ChatScreen></ChatScreen>
+        <ChatScreen></ChatScreen>
     </div>
 </template>
 
@@ -16,8 +16,9 @@ export default {
 
 <style scoped>
 .chat-frame {
-    width: 67%;
+    width: 100%;
+    height: calc(100vh - 64px);
     position: relative;
-    border-left: 1px solid #000;
+    margin: 0 auto;
 }
 </style>

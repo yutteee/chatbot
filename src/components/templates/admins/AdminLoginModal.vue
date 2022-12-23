@@ -1,6 +1,9 @@
 <template>
     <div class="container">
-        <div class="title">Login for Admin</div>
+        <div class="title">
+            Login
+            <span class="subtitle">for admin</span>
+        </div>
         <div class="forms">
             <NameForm
                 :model-value="name" 
@@ -59,6 +62,16 @@ export default {
     color: #0075FF;
     font-size: 48px;
     font-weight: 700;
+    position: relative;
+    display: inline;
+}
+
+.subtitle {
+    font-size: 24px;
+    font-weight: 400;
+    position: absolute;
+    bottom: 0;
+    right: -140px;
 }
 
 </style>

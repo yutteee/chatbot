@@ -9,7 +9,6 @@ export default createStore({
     user_name: "",
     user_id: 0,
     roomID: "",
-    // server.jsから呼び出すようにする
     users: [],
   },
   getters: {

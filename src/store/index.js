@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import http from '../axios/index';
 import router from '../router/index.js';
+import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
@@ -8,7 +9,6 @@ export default createStore({
     user_name: "",
     user_id: 0,
     roomID: "",
-    // server.jsから呼び出すようにする
     users: [],
   },
   getters: {
@@ -65,5 +65,10 @@ export default createStore({
     }
   },
   modules: {
-  }
+  },
+  plugins: [createPersistedState(
+    {
+      storage: window.sessionStrage	
+    }
+  )]
 })

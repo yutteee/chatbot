@@ -8,7 +8,6 @@
 import FloatingActionButton from '../parts/FloatingActionButton.vue';
 import ChatModal from '../templates/users/ChatModal.vue';
 import MyHeader from '../templates/MyHeader.vue'
-import SocketioService from '@/services/socketio.service';
 
 export default {
     components: {
@@ -24,12 +23,6 @@ export default {
     methods: {
         buttonClicked: function () {
             this.isModalOpen = true;
-            SocketioService.setupSocketConnection();
-            SocketioService.createRoom(
-                this.$store.state.user_name, 
-                this.$store.state.user_id, 
-                this.$store.state.roomID
-            );
         },
         closeChatModal: function () {
             this.isModalOpen = false;

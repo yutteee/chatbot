@@ -62,6 +62,14 @@ export default {
             previewImgs: [],
         }
     },
+    created() {
+        SocketioService.setupSocketConnection();
+            SocketioService.createRoom(
+                this.$store.state.user_name, 
+                this.$store.state.user_id, 
+                this.$store.state.roomID
+            );
+    },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
             this.messages = latestMessages.map((message) => {

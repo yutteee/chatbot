@@ -1,5 +1,5 @@
 <template>
-    <MyHeader></MyHeader>
+    <MyHeader :isLogin="false"></MyHeader>
     <AdminLoginModal></AdminLoginModal>
 </template>
 

@@ -6,7 +6,6 @@ const { ALL } = require('dns');
 
 app.use(bodyParser.json());
 app.use(cors());
-
 // 本来はDBから呼び出すもの
 const ALL_USERS = [
   {

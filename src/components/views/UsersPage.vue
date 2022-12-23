@@ -1,5 +1,5 @@
 <template>
-    <MyHeader></MyHeader>
+    <MyHeader :isLogin="true"></MyHeader>
     <ChatModal v-if="isModalOpen" class="chatModal" @parentClick="closeChatModal"></ChatModal>
     <FloatingActionButton @click="buttonClicked" v-show="!isModalOpen"></FloatingActionButton>
 </template>

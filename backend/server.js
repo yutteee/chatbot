@@ -25,6 +25,11 @@ const ALL_USERS = [
   },
 ];
 
+const ADMIN = {
+  name: "admin",
+  id: 0
+}
+
 const postUserData = function (user_data) {
   // 本来はパスワードを使って認証をおこなう。
   const strId = user_data.id;
@@ -35,13 +40,26 @@ const postUserData = function (user_data) {
   return searchedUser;
 };
 
+const adminAuth = function (admin_data) {
+  console.log(admin_data)
+  const adminName = admin_data.name;
+  const adminId = Number(admin_data.id);
+  if (ADMIN.name !== adminName || ADMIN.id !== adminId) {
+    throw new Error("Input information does not match.");
+  } else {return ADMIN;}
+};
+
 app.post('/login', function(req, res){
   res.json(postUserData(req.body));
-})
+});
+
+app.post('/adminLogin', function(req, res){
+  res.json(adminAuth(req.body))
+});
 
 app.post('/allUsers', function(req, res){
   res.json(ALL_USERS);
-})
+});
 
 const io = require("socket.io")(http, {
 	cors: {

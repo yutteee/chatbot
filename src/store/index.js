@@ -20,6 +20,10 @@ export default createStore({
       state.user_id = user_data.id;
       state.roomID = user_data.roomID;
     },
+    admin: function(state, admin_data) {
+      state.user_name = admin_data.name
+      state.user_id = admin_data.id
+    },
     saveAllUsers : function(state, users) {
       state.users = users;
     }
@@ -36,6 +40,18 @@ export default createStore({
             console.log(err);
             alert("user not found.");
         });
+    },
+    adminLogin: function({commit}, admin) {
+      http.post('/adminLogin', admin) 
+        .then(function(response){
+          console.log(response);
+          commit('admin', response.data);
+          router.push('/admin');
+        }.bind(this))
+        .catch(function(err) {
+          console.log(err);
+          alert("input error")
+        })
     },
     getAllUsers: function({commit}) {
       http.post('/allUsers')

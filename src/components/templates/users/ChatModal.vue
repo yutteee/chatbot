@@ -1,7 +1,9 @@
 <template>
     <div class="flame">
         <ChatHeader @childClick="closeChatModal"></ChatHeader>
-        <ChatScreen></ChatScreen>
+        <div class="chat-view">
+            <ChatScreen></ChatScreen>
+        </div>
     </div>
 </template>
 
@@ -28,5 +30,9 @@ export default {
     height: 500px;
     border-radius: 10px;
     box-shadow: 1px 2px 10px 3px rgb(155, 155, 155);
+}
+
+.chat-view {
+    height: calc(100% - 40px);
 }
 </style>

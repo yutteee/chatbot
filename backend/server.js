@@ -35,17 +35,15 @@ const postUserData = function (user_data) {
   const intId = Number(strId);
   const userName = user_data.name;
   const searchedUser = ALL_USERS.find(({ id, name }) => id === intId && name == userName);
-  if (searchedUser.length === 0) return console.error("User not found.");
+  if (searchedUser.length === 0) throw new Error("User not found.");
   return searchedUser;
 };
 
 const adminAuth = function (admin_data) {
-  console.log(admin_data)
   const adminName = admin_data.name;
   const adminId = Number(admin_data.id);
-  if (ADMIN.name !== adminName || ADMIN.id !== adminId) {
-    throw new Error("Input information does not match.");
-  } else {return ADMIN;}
+  if (ADMIN.name !== adminName || ADMIN.id !== adminId) throw new Error("Input information does not match.");
+  return ADMIN;
 };
 
 app.post('/login', function(req, res){

@@ -51,7 +51,7 @@ export default createStore({
         .catch(function(err) {
           console.log(err);
           alert("input error")
-        })
+        });
     },
     getAllUsers: function({commit}) {
       http.post('/allUsers')
@@ -61,7 +61,7 @@ export default createStore({
         })
         .catch(function(err) {
           console.log(err);
-        })
+        });
     }
   },
   modules: {

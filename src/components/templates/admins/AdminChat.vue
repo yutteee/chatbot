@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .chat-frame {
-    width: 90%;
+    width: 100%;
     height: calc(100vh - 64px);
     position: relative;
     margin: 0 auto;

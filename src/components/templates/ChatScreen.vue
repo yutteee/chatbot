@@ -151,6 +151,7 @@ export default {
 .chats {
     height: calc(100% - 60px);
     overflow: scroll;
+    padding: 0 3%;
 }
 
 .messages {

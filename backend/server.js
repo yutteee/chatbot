@@ -2,26 +2,61 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { ALL } = require('dns');
 
 app.use(bodyParser.json());
 app.use(cors());
+// 本来はDBから呼び出すもの
+const ALL_USERS = [
+  {
+      id: 1,
+      name: "yusaku",
+      image: "logo.png",
+      birthday: "2002/07/12",
+      roomID: "room1"
+  },
+  {
+      id: 2,
+      name: "nakamura",
+      image: "logo.png",
+      birthday: "2000/02/01",
+      roomID: "room2"
+  },
+];
 
-let userData = {
-  room: "",
-  name: "",
-  id: 0,
-  message: "",
+const ADMIN = {
+  name: "admin",
+  id: 0
+}
+
+const postUserData = function (user_data) {
+  // 本来はパスワードを使って認証をおこなう。
+  const strId = user_data.id;
+  const intId = Number(strId);
+  const userName = user_data.name;
+  const searchedUser = ALL_USERS.find(({ id, name }) => id === intId && name == userName);
+  if (searchedUser.length === 0) throw new Error("User not found.");
+  return searchedUser;
 };
 
-const postUserData = function (req, res) {
-  userData.name = req.body.name;
-  userData.id = req.body.id;
+const adminAuth = function (admin_data) {
+  const adminName = admin_data.name;
+  const adminId = Number(admin_data.id);
+  if (ADMIN.name !== adminName || ADMIN.id !== adminId) throw new Error("Input information does not match.");
+  return ADMIN;
 };
 
-app.post('/user', function(req, res){
-  res.json(postUserData(req, res));
-})
+app.post('/login', function(req, res){
+  res.json(postUserData(req.body));
+});
 
+app.post('/adminLogin', function(req, res){
+  res.json(adminAuth(req.body))
+});
+
+app.post('/allUsers', function(req, res){
+  res.json(ALL_USERS);
+});
 
 const io = require("socket.io")(http, {
 	cors: {
@@ -36,11 +71,11 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  socket.on('create room', function(user_name, roomID) {
+  socket.on('create room', function(user_name, user_id, roomID) {
     const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
-      id: socket.id,
+      id: user_id,
       roomID
     };
     const room = {
@@ -67,8 +102,7 @@ io.on('connection', (socket) => {
     io.in(chatRoom.id).emit('get message', chatRoom);
 
     socket.on('send message', function(message, file, fileTypes, fileNames) {
-      console.log("メッセージを受け取ったよ");
-      const user = users.find((u) => u.id == socket.id);
+      const user = users.find((u) => u.id == user_id);
       const roomIndex = rooms.findIndex((r) => r.id == user.roomID);
       const room = rooms[roomIndex];
 

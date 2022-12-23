@@ -3,6 +3,7 @@ import LoginView from '../components/views/LoginView.vue'
 import UsersPage from '../components/views/UsersPage.vue'
 import AdminPage from '../components/views/AdminPage.vue'
 import AdminUserDetail from '../components/views/AdminUserDetail.vue'
+import AdminLogin from '../components/views/AdminLogin.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/admin/:id',
     name: 'adminUserDetail',
     component: AdminUserDetail
+  },
+  {
+    path: '/adminLogin',
+    name: 'adminLogin',
+    component: AdminLogin
   }
 ]
 

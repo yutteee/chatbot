@@ -1,10 +1,11 @@
 <template>
     <div class="user-row">
         <div class="user-name">
-            <img :src="require(`../../../assets/${userImage}.png`)" class="user-image"/>
+            <img :src="require(`../../../assets/${userImage}`)" class="user-image"/>
             <router-link
                 :to="{ name: 'adminUserDetail', params: {id: userId}}"
                 class="user-link"
+                @click="enterRoom"
             >
             {{userName}}
             </router-link>
@@ -15,12 +16,22 @@
 </template>
 
 <script>
+import SocketioService from '@/services/socketio.service';
+
 export default {
     props: {
         userId: Number,
         userName: String,
         userImage: String,
-        userBirthDay: String
+        userBirthDay: String,
+        roomID: String
+    },
+    methods: {
+        enterRoom: function(){
+            SocketioService.setupSocketConnection();
+            // admin用のログインができたら名前をadminに変える
+            SocketioService.createRoom(this.$store.state.user_name, this.$store.state.user_id, this.roomID);
+        }
     }
 }
 </script>

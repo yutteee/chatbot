@@ -1,5 +1,5 @@
 <template>
-    <MyHeader></MyHeader>
+    <MyHeader :isLogin="true"></MyHeader>
     <div class="admin">
         <UserDetail
             :userName="user.name"

@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="title">Login</div>
+        <div class="title">Login for Admin</div>
         <div class="forms">
             <NameForm
                 :model-value="name" 
@@ -34,8 +34,8 @@ export default {
     },
     methods: {
         submit: async function() {
-            const user = {name: this.name, id :this.password}
-            await this.$store.dispatch('login', user)
+            const admin = {name: this.name, id :this.password}
+            await this.$store.dispatch('adminLogin', admin)
         }
     }
 }

@@ -11,15 +11,8 @@ export default {
   components: {
     LoginProfile
   },
-  data() {
-    return {
-      isLogin: true
-    }
-  },
-  mounted () {
-    if(this.$store.state.user_id == 0) {
-      this.isLogin = false;
-    }
+  props: {
+    isLogin: Boolean
   }
 }
 </script>

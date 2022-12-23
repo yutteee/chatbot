@@ -1,5 +1,5 @@
 <template>
-    <MyHeader></MyHeader>
+    <MyHeader :isLogin="true"></MyHeader>
     <UsersList></UsersList>
 </template>
 

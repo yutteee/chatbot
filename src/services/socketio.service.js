@@ -9,8 +9,8 @@ class SocketioService {
     console.log(`Connecting socket...`);
   }
 
-  createRoom(user_name, roomID) {
-    this.socket.emit("create room", user_name, roomID);
+  createRoom(user_name, user_id, roomID) {
+    this.socket.emit("create room", user_name, user_id, roomID);
   }
 
   sendMessage(message, file, fileTypes, fileNames) {

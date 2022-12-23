@@ -9,6 +9,7 @@
             :userName="user.name"
             :userImage="user.image"
             :userBirthDay="user.birthday"
+            :roomID="user.roomID"
         ></UserRow>
     </div>
 </template>
@@ -22,6 +23,9 @@ export default {
         UserListHeader,
         UserRow
     },
+    created() {
+        this.$store.dispatch('getAllUsers')
+    }
 }
 </script>
 

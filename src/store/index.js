@@ -26,6 +26,9 @@ export default createStore({
     },
     saveAllUsers : function(state, users) {
       state.users = users;
+    },
+    enterRoom: function(state, room_id) {
+      state.roomID = room_id;
     }
   },
   actions: {

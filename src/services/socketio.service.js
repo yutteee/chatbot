@@ -25,8 +25,9 @@ class SocketioService {
     });
   }
   
-  disconnect() {
+  disconnect(user_id, roomID) {
     if(this.socket) {
+      this.socket.emit('quit room', user_id, roomID);
       this.socket.disconnect();
     }
   }

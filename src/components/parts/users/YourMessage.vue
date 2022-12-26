@@ -58,7 +58,7 @@
             </div>
         </div>
         <div class="text" v-else>{{message}}</div>
-        <img class="profile" src="../../../assets/logo.png">
+        <img class="profile" :src="require(`../../../assets/${userImage}`)">
     </div>
 </template>
 
@@ -66,6 +66,7 @@
 
 export default {
     props: {
+        userImage: String,
         fileURL: String,
         message: String,
         fileType: String,

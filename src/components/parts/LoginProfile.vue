@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <img :src="require(`../../assets/${ this.$store.state.user_img }`)" />
+    <img :src="require(`../../assets/${ this.$store.state.user_image }`)" />
     <div class="name">{{ this.$store.state.user_name }}</div>
   </div>
 </template>

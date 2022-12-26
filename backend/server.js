@@ -72,11 +72,12 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  socket.on('create room', function(user_name, user_id, roomID) {
+  socket.on('create room', function(user_name, user_id, user_image, roomID) {
     const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
       id: user_id,
+      image: user_image,
       roomID
     };
     const room = {
@@ -111,6 +112,7 @@ io.on('connection', (socket) => {
       for(let i = 0; i < file.length; i++) {
         rooms[roomIndex].messages.push({
           id: user.id,
+          image: user.image,
           text: '',
           file: file[i],
           fileType: fileTypes[i],
@@ -121,6 +123,7 @@ io.on('connection', (socket) => {
       if(message != ''){
         rooms[roomIndex].messages.push({
           id: user.id,
+          image: user.image,
           text: message,
           file: {},
           fileType: '',

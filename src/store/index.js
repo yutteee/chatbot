@@ -5,7 +5,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
   state: {
-    user_img: "logo.png",
+    user_image: "logo.png",
     user_name: "",
     user_id: 0,
     roomID: "",
@@ -15,7 +15,7 @@ export default createStore({
   },
   mutations: {
     logined : function(state, user_data) {
-      state.user_img = user_data.image;
+      state.user_image = user_data.image;
       state.user_name = user_data.name;
       state.user_id = user_data.id;
       state.roomID = user_data.roomID;
@@ -23,7 +23,7 @@ export default createStore({
     admin: function(state, admin_data) {
       state.user_name = admin_data.name;
       state.user_id = admin_data.id;
-      state.user_img = admin_data.image;
+      state.user_image = admin_data.image;
     },
     saveAllUsers : function(state, users) {
       state.users = users;

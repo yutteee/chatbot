@@ -3,6 +3,7 @@
         <div v-for="message in messages" :key="message.text">
             <YourMessage
                 v-if="message.id !== $store.state.user_id"
+                :userImage="message.image"
                 :message="message.text"
                 :fileURL="message.file"
                 :fileType="message.fileType"
@@ -10,6 +11,7 @@
             ></YourMessage>
             <MyMessage 
                 v-else
+                :userImage="message.image"
                 :message="message.text"
                 :fileURL="message.file"
                 :fileType="message.fileType"
@@ -20,7 +22,7 @@
     <div class="messages">
         <div class="previews">
             <FilePreview 
-                v-for="(preview, index) in previewImgs" :key="preview"
+                v-for="(preview, index) in previewImages" :key="preview"
                 :previewURL="preview.image" 
                 :previewType="preview.type"
                 :previewName="preview.name" 
@@ -59,7 +61,7 @@ export default {
             inputMessage: '',
             messages: [],
             fileData: [],
-            previewImgs: [],
+            previewImages: [],
         }
     },
     created() {
@@ -67,6 +69,7 @@ export default {
         SocketioService.createRoom(
             this.$store.state.user_name, 
             this.$store.state.user_id, 
+            this.$store.state.user_image, 
             this.$store.state.roomID
         );
     },
@@ -104,7 +107,7 @@ export default {
 
             this.inputMessage = '';
             this.fileData = [];
-            this.previewImgs = [];
+            this.previewImages = [];
         },
         selectFile : function(event) {
             const maxFileSize = 1e8;
@@ -113,12 +116,12 @@ export default {
             const endIndex = this.fileData.length
             this.fileData[endIndex] = event.target.files[0];
 
-            this.previewImgs = this.fileData.map((file) => {
+            this.previewImages = this.fileData.map((file) => {
                 const type = file.type;
                 const name = file.name;
                 const image = this.createPreviewURL(type, file);
-                const previewImg = { image, type, name };
-                return previewImg;
+                const previewImage = { image, type, name };
+                return previewImage;
             });
         },
         determineFileType: function(fileType, name) {
@@ -142,7 +145,7 @@ export default {
         },
         deleteFile: function (index) {
             this.fileData.splice(index, 1)
-            this.previewImgs.splice(index, 1);
+            this.previewImages.splice(index, 1);
         } 
     },
     computed: {

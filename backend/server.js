@@ -26,7 +26,8 @@ const ALL_USERS = [
 
 const ADMIN = {
   name: "admin",
-  id: 0
+  id: 0,
+  image: "logo.png"
 }
 
 const postUserData = function (user_data) {

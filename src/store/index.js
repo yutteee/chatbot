@@ -21,8 +21,9 @@ export default createStore({
       state.roomID = user_data.roomID;
     },
     admin: function(state, admin_data) {
-      state.user_name = admin_data.name
-      state.user_id = admin_data.id
+      state.user_name = admin_data.name;
+      state.user_id = admin_data.id;
+      state.user_img = admin_data.image;
     },
     saveAllUsers : function(state, users) {
       state.users = users;

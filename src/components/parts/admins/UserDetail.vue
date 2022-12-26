@@ -35,6 +35,12 @@ export default {
     justify-content: center;
 }
 
+.user-image {
+    width: 280px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .user-detail-row-title {
     width: 40%;
 }

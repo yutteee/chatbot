@@ -16,6 +16,8 @@ img {
     width: 40px;
     height: 40px;
     padding-top: 12px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .name {

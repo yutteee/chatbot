@@ -26,7 +26,8 @@ const ALL_USERS = [
 
 const ADMIN = {
   name: "admin",
-  id: 0
+  id: 0,
+  image: "logo.png"
 }
 
 const postUserData = function (user_data) {
@@ -71,11 +72,12 @@ const rooms = [];
 const users = [];
 
 io.on('connection', (socket) => {
-  socket.on('create room', function(user_name, user_id, roomID) {
+  socket.on('create room', function(user_name, user_id, user_image, roomID) {
     const isRoomExist = rooms.findIndex((r) => r.id == roomID)
     const user = {
       name: user_name,
       id: user_id,
+      image: user_image,
       roomID
     };
     const room = {
@@ -109,18 +111,19 @@ io.on('connection', (socket) => {
       // send file
       for(let i = 0; i < file.length; i++) {
         rooms[roomIndex].messages.push({
-          name: user.name,
+          id: user.id,
+          image: user.image,
           text: '',
           file: file[i],
           fileType: fileTypes[i],
           fileName: fileNames[i]
         });
-        console.log(file);
       };
       // send message
       if(message != ''){
         rooms[roomIndex].messages.push({
-          name: user.name,
+          id: user.id,
+          image: user.image,
           text: message,
           file: {},
           fileType: '',

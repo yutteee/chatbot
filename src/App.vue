@@ -4,16 +4,6 @@
 </div>
 </template>
 
-<script>
-import SocketioService from './services/socketio.service.js';
-
-export default {
-  beforeUnmount() {
-    SocketioService.disconnect();
-  },
-}
-</script>
-
 <style scoped>
 .box {
   width: fit-content;

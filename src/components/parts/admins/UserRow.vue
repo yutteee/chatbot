@@ -5,6 +5,7 @@
             <router-link
                 :to="{ name: 'adminUserDetail', params: {id: userId}}"
                 class="user-link"
+                @click="enterRoom"
             >
             {{userName}}
             </router-link>
@@ -23,6 +24,11 @@ export default {
         userBirthDay: String,
         roomID: String
     },
+    methods: {
+        enterRoom: function(){
+            this.$store.commit("enterRoom", this.roomID);
+        }
+    }
 }
 </script>
 

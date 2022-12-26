@@ -130,8 +130,17 @@ io.on('connection', (socket) => {
 
       console.log(room);
       io.in(room.id).emit('get message', room);
-    })
+    });
   });
+  socket.on('quit room', function(user_id, roomID) {
+    if (users.length <= 0) return;
+    const quitUserIndex = users.findIndex( user => user.id === user_id );
+    const quitRoomIndex = rooms.findIndex( room => room.id === roomID );
+    users.splice(quitUserIndex, 1);
+    rooms[quitRoomIndex].users.splice(quitUserIndex, 1);
+    console.log(users);
+    console.log(rooms);
+  })
 });
 
 http.listen(3000, () => {

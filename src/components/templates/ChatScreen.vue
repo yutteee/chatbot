@@ -64,11 +64,11 @@ export default {
     },
     created() {
         SocketioService.setupSocketConnection();
-            SocketioService.createRoom(
-                this.$store.state.user_name, 
-                this.$store.state.user_id, 
-                this.$store.state.roomID
-            );
+        SocketioService.createRoom(
+            this.$store.state.user_name, 
+            this.$store.state.user_id, 
+            this.$store.state.roomID
+        );
     },
     mounted() {
         SocketioService.getMessage((err, latestMessages) => {
@@ -85,6 +85,10 @@ export default {
             console.log(this.messages);
             this.scrollToEnd();
         });
+    },
+    beforeUnmount() {
+        SocketioService.disconnect(this.$store.state.user_id, this.$store.state.roomID);
+        console.log("disconnect")
     },
     methods: {
         sendMessage : function() {

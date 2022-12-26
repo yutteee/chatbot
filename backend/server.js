@@ -110,18 +110,17 @@ io.on('connection', (socket) => {
       // send file
       for(let i = 0; i < file.length; i++) {
         rooms[roomIndex].messages.push({
-          name: user.name,
+          id: user.id,
           text: '',
           file: file[i],
           fileType: fileTypes[i],
           fileName: fileNames[i]
         });
-        console.log(file);
       };
       // send message
       if(message != ''){
         rooms[roomIndex].messages.push({
-          name: user.name,
+          id: user.id,
           text: message,
           file: {},
           fileType: '',

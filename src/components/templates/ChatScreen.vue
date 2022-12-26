@@ -2,7 +2,7 @@
     <div class="chats" ref="myModal">
         <div v-for="message in messages" :key="message.text">
             <YourMessage
-                v-if="message.name !== $store.state.user_name"
+                v-if="message.id !== $store.state.user_id"
                 :message="message.text"
                 :fileURL="message.file"
                 :fileType="message.fileType"
